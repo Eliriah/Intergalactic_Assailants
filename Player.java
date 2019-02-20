@@ -27,7 +27,7 @@ public class Player{
 	public void moveRight(){
 		x_coordinate += 5;
 	}
-	public void moveleft(){
+	public void moveLeft(){
 		x_coordinate -= 5;
 	}
 	public void setLive(boolean state){
