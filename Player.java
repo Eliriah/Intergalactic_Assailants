@@ -33,7 +33,7 @@ public class Player{
 	public void setLive(boolean state){
 		live = state;
 	}
-	public Rectangle getPlayerBoundry(){
+	public Rectangle getPlayerBoundary(){
 		return new Rectangle(x_coordinate, y_coordinate, width, height);
 	}
 }

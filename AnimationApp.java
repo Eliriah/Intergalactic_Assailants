@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.awt.Rectangle;
+
 public class AnimationApp{
     public static void main(String[] args) {
         System.out.println("Press the 'a' key to move left. Press the 'd' key to move right. Press the spacebar to shoot.");
@@ -13,10 +15,14 @@ public class AnimationApp{
                 else{
                     player1.moveLeft();
                     System.out.println(player1.getX_Coordinate());
+                    Rectangle r1 = player1.getPlayerBoundary();
+                    Rectangle r2 = enemy1.getEnemyBoundary();
+                    if (r1.intersects(r2)){
+                        player1.setLive(false);
+                        System.out.println("GAME OVER");
+                    }
                 }
-
             }
-    
             if(keyEntered == 'd'){
                 if(player1.getX_Coordinate() == 50){
                     System.out.println("Sorry, you can't move any farther right.");
@@ -24,11 +30,9 @@ public class AnimationApp{
                 else{
                     player1.moveRight();
                     System.out.println(player1.getX_Coordinate());
-                }
+                    }
 
             }
-
         }
-
     }
 }
