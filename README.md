@@ -1,3 +1,6 @@
 # Intergalactic_Assailants
+T10G4
 CPSC 233 Project
-We have 0.00001% of an idea of what we are doing.
+Download all files in repository.
+Extract to folder.
+Open 
