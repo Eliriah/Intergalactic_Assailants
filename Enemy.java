@@ -6,6 +6,7 @@ public class Enemy {
 	private int width;
 	private int height;
 	private boolean live;
+	private boolean enemyMovementRight;
 
 	public Enemy(int x,int y){
 		this.x_coordinate = x;
@@ -13,6 +14,7 @@ public class Enemy {
 		this.width = 5;
 		this.height = 5;
 		this.live = true;
+		this.enemyMovementRight = true;
 	}
 	public int getX_Coordinate(){
 		return x_coordinate;
@@ -22,6 +24,9 @@ public class Enemy {
 	}
 	public boolean getLive(){
 		return live;
+	}
+	public boolean getEnemyMovementRight(){
+		return enemyMovementRight;
 	}
 	public void moveRight(){
 		x_coordinate += 10;
@@ -35,7 +40,10 @@ public class Enemy {
 	public void setLive(boolean state){
 		live = state;
 	}
-	public Rectangle getEnemyBoundry(){
+	public void setEnemyMovementRight(boolean state){
+		enemyMovementRight = state;
+	}
+	public Rectangle getEnemyBoundary(){
 		return new Rectangle(x_coordinate, y_coordinate, width, height);
 	}
 }
