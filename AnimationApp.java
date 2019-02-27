@@ -52,7 +52,7 @@ public class AnimationApp{
 
 		if (r1.intersects(r2))
 			collision = true;
-		return collision;	
+		return collision;
 	}
 	public static void main(String[] args){
 
@@ -74,12 +74,13 @@ public class AnimationApp{
 				if(player1.getX_Coordinate() == (-50)){
 					//sets a limit to how far the player can move left
 					System.out.println("Sorry, you can't move any farther left.");
+          System.out.println("Player Position: "+player1.getX_Coordinate()+", "+player1.getY_Coordinate());
 				}
 
 				else{
 
 					player1.moveLeft();
-					System.out.println("Player Position: "+player1.getX_Coordinate()+", "+player1.getY_Coordinate());	
+					System.out.println("Player Position: "+player1.getX_Coordinate()+", "+player1.getY_Coordinate());
 
 				}
 
@@ -89,6 +90,7 @@ public class AnimationApp{
 				if(player1.getX_Coordinate() == 50){
 					//sets a limit to how far the player can move right.
 					System.out.println("Sorry, you can't move any farther right.");
+          System.out.println("Player Position: "+player1.getX_Coordinate()+", "+player1.getY_Coordinate());
 				}
 
 				else{
@@ -103,6 +105,10 @@ public class AnimationApp{
 			// the game's end condition where the enemy and the player collide.
 				player1.setLive(false);
 				System.out.println("GAME OVER");
+      }
+      if ((enemy1.getY_Coordinate() == 0) && (enemy1.getX_Coordinate() == -40)) {
+        player1.setLive(false);
+        System.out.println("GAME OVER");
 			}
 		}
 	}
