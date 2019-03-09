@@ -24,10 +24,10 @@ public class GUI extends Application {
     }
     @Override 
     public void start(Stage stage) throws FileNotFoundException {   
-        Image titleScreen = new Image(new FileInputStream("C:\\Users\\Rachael\\CPSC 233\\Project\\space.png"));  
-        Image title = new Image(new FileInputStream("C:\\Users\\Rachael\\CPSC 233\\Project\\title.png"));
-        Image playButton = new Image(new FileInputStream("C:\\Users\\Rachael\\CPSC 233\\Project\\start.png"));
-        Image exitButton = new Image(new FileInputStream("C:\\Users\\Rachael\\CPSC 233\\Project\\exit.png"));
+        Image titleScreen = new Image(getClass().getResourceAsStream("space.jpg"));  
+        Image title = new Image("images/title.png");
+        Image playButton = new Image("images/start.png");
+        Image exitButton = new Image("images/exit.png");
 
         ImageView imageView = new ImageView();
         imageView.setImage(titleScreen); 
@@ -60,8 +60,8 @@ public class GUI extends Application {
         imageView.setFitWidth(1300); 
         imageView.setPreserveRatio(true);  
         //this sht VVV isnt moving for some reason >:(((
-        titleNode.setX(0);
-        titleNode.setY(0);
+        titleNode.setX(1000);
+        titleNode.setY(1000);
 
         final VBox buttons = new VBox();
 
