@@ -23,11 +23,16 @@ public class GUI extends Application {
         launch(args); 
     }
     @Override 
-    public void start(Stage stage) throws FileNotFoundException {   
-        Image titleScreen = new Image(getClass().getResourceAsStream("space.jpg"));  
-        Image title = new Image("images/title.png");
-        Image playButton = new Image("images/start.png");
-        Image exitButton = new Image("images/exit.png");
+    public void start(Stage stage) throws FileNotFoundException {
+        String titleBg = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/space.png";
+        Image titleScreen = new Image(titleBg, 1920,1080,false,true);
+        //Image titleScreen = new Image(getClass().getResourceAsStream("space.jpg"));  
+        String titleText = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/title.png";
+        Image title = new Image(titleText, 777,174,false, true);
+        String playURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/start.png";
+        Image playButton = new Image(playURL,269,84,false,true);
+        String exitURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/exit.png";
+        Image exitButton = new Image(exitURL, 267,82,false,true);
 
         ImageView imageView = new ImageView();
         imageView.setImage(titleScreen); 
