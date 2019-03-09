@@ -24,6 +24,8 @@ public class GUI extends Application {
     }
     @Override 
     public void start(Stage stage) throws FileNotFoundException {
+        Pane root = new Pane();
+
         String titleBg = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/space.png";
         Image titleScreen = new Image(titleBg, 1920,1080,false,true);
         //Image titleScreen = new Image(getClass().getResourceAsStream("space.jpg"));  
@@ -33,6 +35,11 @@ public class GUI extends Application {
         Image playButton = new Image(playURL,269,84,false,true);
         String exitURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/exit.png";
         Image exitButton = new Image(exitURL, 267,82,false,true);
+        String scoreURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/score.png";
+        Image score = new Image(scoreURL,186,44,false,true);
+
+        ImageView scoreNode = new ImageView();
+        scoreNode.setImage(score);
 
         ImageView imageView = new ImageView();
         imageView.setImage(titleScreen); 
@@ -45,8 +52,13 @@ public class GUI extends Application {
         playButtonNode.setImage(playButton);
         play_button.setGraphic(playButtonNode);
         play_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
-        //play_button.setOnAction()
-        //howmst....
+        play_button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent exit) {
+                root.getChildren().add(scoreNode);
+            }
+        }
+        );
+        //exits program for now
         
         Button exit_button  = new Button();
         ImageView exitButtonNode = new ImageView();
@@ -77,8 +89,10 @@ public class GUI extends Application {
         exit_button.setLayoutY(500);
         exitButtonNode.setLayoutX(500);
         exitButtonNode.setLayoutY(500);
+        
+        scoreNode.setLayoutX(950);
+        scoreNode.setLayoutY(620);
 
-        Pane root = new Pane();
 
         root.getChildren().addAll(imageView, titleNode, play_button, exit_button);
         Scene scene = new Scene(root, 1800, 1040); 
