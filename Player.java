@@ -8,6 +8,7 @@ public class Player{
 	private int height;
 	private boolean live;
 
+	//Constructor
 	public Player(int x,int y){
 		this.x_coordinate = x;
 		this.y_coordinate = y;
@@ -15,6 +16,7 @@ public class Player{
 		this.height = 5;
 		this.live = true;
 	}
+	//Getters
 	public int getX_Coordinate(){
 		return x_coordinate;
 	}
@@ -30,19 +32,28 @@ public class Player{
 	public int getHeight(){
 		return height;
 	}
+	//Setters
+	public void setLive(boolean state){
+		live = state;
+	}
+	public void moveDown(int distance){
+		y_coordinate += distance;
+	}
+	public void moveUp(int distance){
+		y_coordinate -= distance;
+	}
 	public void moveRight(){
 		x_coordinate += 5;
 	}
 	public void moveLeft(){
 		x_coordinate -= 5;
 	}
-	public void setLive(boolean state){
-		live = state;
-	}
-	public void moveDown() {
-		y_coordinate -= 5;
-	}
+	//methods
 	public Rectangle getPlayerBoundary(){
 		return new Rectangle(x_coordinate, y_coordinate, width, height);
+	}
+	public void shoot(int x, int y, boolean state){
+		Projectile bullet = new Projectile(x, y, state);
+		//add to screen (root.getChildren().add(bullet));
 	}
 }
