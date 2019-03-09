@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -59,24 +59,28 @@ public class GUI extends Application {
             }
         }
         );
-        imageView.setX(0); 
-        imageView.setY(0); 
+        imageView.setLayoutX(0); 
+        imageView.setLayoutY(0); 
         imageView.setFitHeight(1080); 
         imageView.setFitWidth(1300); 
         imageView.setPreserveRatio(true);  
-        //this sht VVV isnt moving for some reason >:(((
-        titleNode.setX(1000);
-        titleNode.setY(1000);
 
-        final VBox buttons = new VBox();
+        titleNode.setLayoutX(250);
+        titleNode.setLayoutY(180);
 
-        
-        Insets buttonPadding = new Insets(1375,1000,1000,1000);
-        buttons.setPadding(buttonPadding);
-        buttons.getChildren().addAll(play_button, exit_button);
-        StackPane root = new StackPane();
+        play_button.setLayoutX(500);
+        play_button.setLayoutY(400);
+        playButtonNode.setLayoutX(500);
+        playButtonNode.setLayoutY(400);
 
-        root.getChildren().addAll(imageView, titleNode, buttons);
+        exit_button.setLayoutX(500);
+        exit_button.setLayoutY(500);
+        exitButtonNode.setLayoutX(500);
+        exitButtonNode.setLayoutY(500);
+
+        Pane root = new Pane();
+
+        root.getChildren().addAll(imageView, titleNode, play_button, exit_button);
         Scene scene = new Scene(root, 1800, 1040); 
         stage.setTitle("Intergalactic Assailants");  
         stage.getIcons().add(new Image(GUI.class.getResourceAsStream("moon.png"))); 
