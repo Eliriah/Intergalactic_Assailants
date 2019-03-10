@@ -17,22 +17,27 @@ public class Enemy extends Player{
 	public Rectangle getEnemyBoundary(){
 		return new Rectangle(getX_Coordinate(), getY_Coordinate(), getWidth(), getHeight());
 	}
-	public void enemyMovement(){
+        
+	public void enemyMovement(Player a){
 		if (getEnemyMovementRight() == true){
 			if(getX_Coordinate() == (900)) {
-				moveDown(5);
+                            if(getY_Coordinate()<800)
+				moveDown();
 				setEnemyMovementRight(false);
 			}
 			else{
+                            if(getX_Coordinate() != a.getX_Coordinate()-50 || getY_Coordinate()<800)
 				moveRight();
 			}
 		}
 		else{
 			if(getX_Coordinate() == 0){
-					moveDown(5);
-					setEnemyMovementRight(true);
+                            if(getY_Coordinate()<800)
+                                moveDown();
+                                setEnemyMovementRight(true);
 			}
 			else{
+                            if(getX_Coordinate() != a.getX_Coordinate()+50 || getY_Coordinate()<800)
 				moveLeft();
 			}
 		}
