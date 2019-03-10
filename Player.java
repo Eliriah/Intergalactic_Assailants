@@ -36,6 +36,12 @@ public class Player{
 	public void moveLeft(){
 		x_coordinate -= 5;
 	}
+        public void setXCoordinate(int a){
+            x_coordinate = a;
+        }
+        public void setYCoordinate(int a){
+            y_coordinate = a;
+        }
 	public void setLive(boolean state){
 		live = state;
 	}
