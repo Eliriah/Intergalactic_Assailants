@@ -30,7 +30,7 @@ public class Projectile extends Player {
   public Rectangle getProjectileBoundary(){
     return new Rectangle(getX_Coordinate(), getY_Coordinate(), getWidth(), getHeight());
   }
-  public void ProjectileMovement() {
+  public void projectileMovement() {
     if (projectileMovementUp == true)
       moveUp(15);
     if (projectileMovementUp == false)
