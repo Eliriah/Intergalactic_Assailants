@@ -4,8 +4,12 @@ public class Enemy extends Player{
 
 	private boolean enemyMovementRight;
 
+	public Enemy(int x,int y, int h, int w){
+		super(x, y, h, w);
+		this.enemyMovementRight = true;
+	}
 	public Enemy(int x,int y){
-		super(x, y);
+		super(x, y, 5, 5);
 		this.enemyMovementRight = true;
 	}
 	public boolean getEnemyMovementRight(){

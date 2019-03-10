@@ -4,10 +4,17 @@ public class Player{
 
 	private int x_coordinate;
 	private int y_coordinate;
-        private int width;
+    private int width;
 	private int height;
 	private boolean live;
 
+	public Player(int x,int y, int w, int h){
+		this.x_coordinate = x;
+		this.y_coordinate = y;
+		this.width = w;
+		this.height = h;
+		this.live = true;
+	}
 	public Player(int x,int y){
 		this.x_coordinate = x;
 		this.y_coordinate = y;
@@ -43,10 +50,17 @@ public class Player{
             y_coordinate = a;
         }
 	public void setLive(boolean state){
-            live = state;
+			if (live != state)
+            	live = state;
+	}
+	public void setWidth(int aWidth){
+		width = aWidth;
+	}
+	public void setHeight(int aHeight){
+		height = aHeight;
 	}
 	public void moveDown() {
-            y_coordinate += 10;
+            y_coordinate += 50;
 	}
         public void moveDown(int distance){
             y_coordinate+=distance;
