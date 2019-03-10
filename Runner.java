@@ -7,7 +7,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.image.*;
 
 public class Runner extends Application{
@@ -32,6 +31,11 @@ public class Runner extends Application{
         thePlayer.setImage(playerSprite);
         thePlayer.setLayoutY(player.getY_Coordinate());
 
+        String bgURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/bg.png";
+        Image bg = new Image(bgURL, 1000,1000,false,true);
+        ImageView theBG = new ImageView();
+        theBG.setImage(bg);
+
         Pane root = new Pane();
         Scene scene = new Scene(root, 1000, 1000);
 
@@ -55,6 +59,7 @@ public class Runner extends Application{
             }
         });
 
+        root.getChildren().add(theBG);
         root.getChildren().add(thePlayer);
         root.getChildren().add(theEnemy);
 
@@ -67,13 +72,17 @@ public class Runner extends Application{
             public void handle(long now) {
 
                 if (movingLeft) {
-                    player.moveLeft();
-                    thePlayer.setLayoutX(player.getX_Coordinate());
+                    if (player.getX_Coordinate() > 5){
+                        player.moveLeft();
+                        thePlayer.setLayoutX(player.getX_Coordinate());
+                    }
                 }
 
                 if (movingRight){
-                    player.moveRight();
-                    thePlayer.setLayoutX(player.getX_Coordinate());
+                    if (player.getX_Coordinate() < 950){
+                        player.moveRight();
+                        thePlayer.setLayoutX(player.getX_Coordinate());
+                    }
                 }
 
                 enemy.enemyMovement();
