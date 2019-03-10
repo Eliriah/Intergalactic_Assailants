@@ -14,12 +14,16 @@ public class Runner extends Application {
     Rectangle thePlayer = new Rectangle(player.getX_Coordinate(), player.getY_Coordinate(), 50, 50);
     Node player1 = thePlayer;
 
+    Enemy enemy = new Enemy(50, 50);
+    Rectangle theEnemy = new Rectangle(enemy.getX_Coordinate(), enemy.getY_Coordinate(), 50, 50);
+    Node enemy1 = theEnemy;
+
     boolean movingLeft, movingRight;
 
     @Override
     public void start(Stage stage) throws Exception {
 
-        Group root = new Group(player1);
+        Group root = new Group(player1, enemy1);
 
         Scene scene = new Scene(root, 1000, 1000);
 
@@ -59,6 +63,10 @@ public class Runner extends Application {
                     player.moveRight();
                     thePlayer.setLayoutX(player.getX_Coordinate());
                 }
+
+                enemy.enemyMovement();
+                theEnemy.setLayoutX(enemy.getX_Coordinate());
+                theEnemy.setLayoutY(enemy.getY_Coordinate());
             }
         };
         timer.start();
