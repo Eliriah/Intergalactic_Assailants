@@ -19,6 +19,7 @@ public class Enemy extends Player{
 	}
         
 	public void enemyMovement(Player a){
+            boolean ifPlayerCanMove;
 		if (getEnemyMovementRight() == true){
 			if(getX_Coordinate() == (900)) {
                             if(getY_Coordinate()<800)
@@ -28,6 +29,10 @@ public class Enemy extends Player{
 			else{
                             if(getX_Coordinate() != a.getX_Coordinate()-50 || getY_Coordinate()<800)
 				moveRight();
+                            else{
+                                ifPlayerCanMove=false;
+                                Runner.setIfPlayerCanMove(ifPlayerCanMove);
+                            }
 			}
 		}
 		else{
@@ -39,6 +44,10 @@ public class Enemy extends Player{
 			else{
                             if(getX_Coordinate() != a.getX_Coordinate()+50 || getY_Coordinate()<800)
 				moveLeft();
+                            else{
+                                ifPlayerCanMove=false;
+                                Runner.setIfPlayerCanMove(ifPlayerCanMove);
+                            }
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.event.EventHandler;
 import javafx.scene.*;
 import javafx.scene.image.*;
@@ -16,6 +17,12 @@ public class Runner extends Application{
     Enemy enemy = new Enemy(50, 50);
 
     boolean movingRight, movingLeft;
+    
+    static boolean ifPlayerCanMove = true;
+    
+    public static void setIfPlayerCanMove(boolean a){
+        ifPlayerCanMove = a;
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -42,10 +49,11 @@ public class Runner extends Application{
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                switch (event.getCode()) {
-                    case D: movingRight = true; break;
-                    case A: movingLeft = true; break;
-                }
+                    switch (event.getCode()) {
+                        case D: movingRight = true; break;
+                        case A: movingLeft = true; break;
+                    }
+                
             }
         });
 
@@ -72,24 +80,31 @@ public class Runner extends Application{
             public void handle(long now) {
 
                 if (movingLeft) {
-                    if (player.getX_Coordinate() > 5){
-                        player.moveLeft();
-                        thePlayer.setLayoutX(player.getX_Coordinate());
+                    if(ifPlayerCanMove == true){
+                        if (player.getX_Coordinate() > 5){
+                            player.moveLeft();
+                            thePlayer.setLayoutX(player.getX_Coordinate());
+                        }
                     }
                 }
 
                 if (movingRight){
-                    if (player.getX_Coordinate() < 950){
-                        player.moveRight();
-                        thePlayer.setLayoutX(player.getX_Coordinate());
+                    if(ifPlayerCanMove == true){
+                        if (player.getX_Coordinate() < 950){
+                            player.moveRight();
+                            thePlayer.setLayoutX(player.getX_Coordinate());
+                        }
                     }
                 }
 
-                enemy.enemyMovement();
+                enemy.enemyMovement(player);
                 theEnemy.setLayoutX(enemy.getX_Coordinate());
                 theEnemy.setLayoutY(enemy.getY_Coordinate());
             }
         };
         timer.start();
+    }
+    public static void main(String[] args){
+        launch(args);
     }
 }
