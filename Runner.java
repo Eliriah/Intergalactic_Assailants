@@ -4,27 +4,35 @@ import javafx.event.EventHandler;
 import javafx.scene.*;
 import javafx.scene.image.*;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.image.*;
 
-public class Runner extends Application {
+public class Runner extends Application{
 
     Player player = new Player(500, 800);
-    Rectangle thePlayer = new Rectangle(player.getX_Coordinate(), player.getY_Coordinate(), 50, 50);
-    Node player1 = thePlayer;
 
     Enemy enemy = new Enemy(50, 50);
-    Rectangle theEnemy = new Rectangle(enemy.getX_Coordinate(), enemy.getY_Coordinate(), 50, 50);
-    Node enemy1 = theEnemy;
 
-    boolean movingLeft, movingRight;
+    boolean movingRight, movingLeft;
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage primaryStage) throws Exception{
 
-        Group root = new Group(player1, enemy1);
+        String enemyURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/ufo.png";
+        Image enemySprite = new Image(enemyURL,50,50,false,true);
+        ImageView theEnemy = new ImageView();
+        theEnemy.setImage(enemySprite);
 
+        String playerURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/player.png";
+        Image playerSprite = new Image(playerURL,50,50,false,true);
+        ImageView thePlayer = new ImageView();
+        thePlayer.setImage(playerSprite);
+        thePlayer.setLayoutY(player.getY_Coordinate());
+
+        Pane root = new Pane();
         Scene scene = new Scene(root, 1000, 1000);
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -47,8 +55,12 @@ public class Runner extends Application {
             }
         });
 
-        stage.setScene(scene);
-        stage.show();
+        root.getChildren().add(thePlayer);
+        root.getChildren().add(theEnemy);
+
+        primaryStage.setTitle("Intergalactic Assailants");
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -71,5 +83,4 @@ public class Runner extends Application {
         };
         timer.start();
     }
-    public static void main(String[] args) { launch(args); }
 }
