@@ -1,7 +1,7 @@
 # Intergalactic_Assailants
 
 ## About
-This project is a fixed shooter arcade inspired game where the player controls an avatar, moving it side to side in order to eliminate all the enemies that are descending. This text-based version of the game allows the player to move side to side through user input, trying to avoid the enemy by showing the current coordinates of both the player and the enemy in the console.
+This project is a fixed shooter arcade inspired game where the player controls an avatar, moving it side to side in order to eliminate all the enemies that are descending. This GUI version of the game allows the player to move side to side through user input, trying to avoid the enemy. The player will be able to shoot the enemy in attempts to destroy it and win the game.
 
 ## Installing
 https://github.com/Eliriah/Intergalactic_Assailants
@@ -22,4 +22,4 @@ Jack Yang
 ## Acknowledgement
 Inspiration drawn from the arcade game Space Invaders.
 
-##### Version 1.0.0
+##### Version 2.0.0
