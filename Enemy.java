@@ -17,4 +17,24 @@ public class Enemy extends Player{
 	public Rectangle getEnemyBoundary(){
 		return new Rectangle(getX_Coordinate(), getY_Coordinate(), getWidth(), getHeight());
 	}
+	public void enemyMovement(){
+		if (getEnemyMovementRight() == true){
+			if(getX_Coordinate() == (900)) {
+				moveDown();
+				setEnemyMovementRight(false);
+			}
+			else{
+				moveRight();
+			}
+		}
+		else{
+			if(getX_Coordinate() == 0){
+					moveDown();
+					setEnemyMovementRight(true);
+			}
+			else{
+				moveLeft();
+			}
+		}
+	}
 }
