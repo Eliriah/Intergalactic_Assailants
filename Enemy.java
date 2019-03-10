@@ -20,7 +20,7 @@ public class Enemy extends Player{
 	public void enemyMovement(){
 		if (getEnemyMovementRight() == true){
 			if(getX_Coordinate() == (900)) {
-				moveDown();
+				moveDown(5);
 				setEnemyMovementRight(false);
 			}
 			else{
@@ -29,7 +29,7 @@ public class Enemy extends Player{
 		}
 		else{
 			if(getX_Coordinate() == 0){
-					moveDown();
+					moveDown(5);
 					setEnemyMovementRight(true);
 			}
 			else{
