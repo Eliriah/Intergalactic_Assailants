@@ -4,7 +4,7 @@ public class Player{
 
 	private int x_coordinate;
 	private int y_coordinate;
-	private int width;
+        private int width;
 	private int height;
 	private boolean live;
 
