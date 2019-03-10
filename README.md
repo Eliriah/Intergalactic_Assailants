@@ -8,8 +8,8 @@ https://github.com/Eliriah/Intergalactic_Assailants
 Download all the files as a ZIP.
 Extract to folder.
 Open terminal and open directory where you downloaded the files.
-Type in "javac *.java" to compile all the files.
-Type in java AnimationApp in the terminal to run the game.
+Type in "javac -cp .;junit-4.12.jar;hamcrest-core-1.3.jar *.java" to compile all the files.
+Type in java Runner in the terminal to run the game.
 
 ## Credits
 T10G4
