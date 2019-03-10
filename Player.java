@@ -4,11 +4,10 @@ public class Player{
 
 	private int x_coordinate;
 	private int y_coordinate;
-	private int width;
+        private int width;
 	private int height;
 	private boolean live;
 
-	//Constructor
 	public Player(int x,int y){
 		this.x_coordinate = x;
 		this.y_coordinate = y;
@@ -16,7 +15,6 @@ public class Player{
 		this.height = 5;
 		this.live = true;
 	}
-	//Getters
 	public int getX_Coordinate(){
 		return x_coordinate;
 	}
@@ -32,23 +30,30 @@ public class Player{
 	public int getHeight(){
 		return height;
 	}
-	//Setters
-	public void setLive(boolean state){
-		live = state;
-	}
-	public void moveDown(int distance){
-		y_coordinate += distance;
-	}
-	public void moveUp(int distance){
-		y_coordinate -= distance;
-	}
 	public void moveRight(){
 		x_coordinate += 5;
 	}
 	public void moveLeft(){
 		x_coordinate -= 5;
 	}
-	//methods
+        public void setXCoordinate(int a){
+            x_coordinate = a;
+        }
+        public void setYCoordinate(int a){
+            y_coordinate = a;
+        }
+	public void setLive(boolean state){
+            live = state;
+	}
+	public void moveDown() {
+            y_coordinate += 10;
+	}
+        public void moveDown(int distance){
+            y_coordinate+=distance;
+        }
+        public void moveUp(int distance){
+            y_coordinate-=distance;
+        }
 	public Rectangle getPlayerBoundary(){
 		return new Rectangle(x_coordinate, y_coordinate, width, height);
 	}
