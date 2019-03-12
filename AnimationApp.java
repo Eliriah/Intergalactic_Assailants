@@ -2,6 +2,10 @@ import java.util.Scanner;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+/**
+ * Original text-based version of the game.
+ */
+
 public class AnimationApp{
 	/**
 	 * Method that controls how the enemy moves.

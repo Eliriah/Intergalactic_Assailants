@@ -1,3 +1,7 @@
+/**
+ * 19.03.11
+ * This class is currently not in use.
+ */
 public class Obstacle {
 	String name;
 	int x,y;

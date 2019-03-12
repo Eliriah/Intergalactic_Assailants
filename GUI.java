@@ -16,7 +16,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-
+/**
+ * Main menu screen for the game
+ * 19.03.11
+ * Not currently in use
+ */
 
 public class GUI extends Application {  
     public static void main(String args[]) { 
@@ -28,7 +32,6 @@ public class GUI extends Application {
 
         String titleBg = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/space.png";
         Image titleScreen = new Image(titleBg, 1920,1080,false,true);
-        //Image titleScreen = new Image(getClass().getResourceAsStream("space.jpg"));  
         String titleText = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/title.png";
         Image title = new Image(titleText, 777,174,false, true);
         String playURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/start.png";
@@ -58,8 +61,6 @@ public class GUI extends Application {
             }
         }
         );
-        //exits program for now
-        
         Button exit_button  = new Button();
         ImageView exitButtonNode = new ImageView();
         exitButtonNode.setImage(exitButton); 

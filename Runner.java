@@ -10,6 +10,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.image.*;
+/**
+ * Class that runs the game
+ */
 
 public class Runner extends Application{
 // Instance Variables
@@ -21,7 +24,7 @@ public class Runner extends Application{
 
 // R.N.G.
 
-    Random randomNumber = new Random();
+    private Random randomNumber = new Random();
 
 // Arraylists
 
@@ -38,11 +41,20 @@ public class Runner extends Application{
 
     static boolean ifPlayerCanMove = true;
 
+    /**
+     * Sets if the player can move or not
+     * @param a
+     */
+
     public static void setIfPlayerCanMove(boolean a){
         ifPlayerCanMove = a;
     }
 
 // Methods for Spawning game elements 
+/**
+ * Spawns enemies onto the screen
+ * @param numberOfEnemies
+ */
 
     public void spawnEnemies(int numberOfEnemies){
         // Used to seperate Enemy Spawns
@@ -74,6 +86,9 @@ public class Runner extends Application{
             x++;
         }
     }
+    /**
+     * Method that allows the player to shoot projectiles
+     */
     public void shootProjectile(){
         // Creates Projectile
         Projectile bullet = new Projectile(player.getX_Coordinate(), player.getY_Coordinate(), 20, 40, true);
@@ -90,6 +105,9 @@ public class Runner extends Application{
         theBullets.add(theBullet);
         root.getChildren().add(theBullet);
     }
+    /**
+     * Method that shoots projectiles from the enemies
+     */
     public void shootEnemyProjectile(){
         // One enemy will randomly shoot
         Enemy enemyBullet = enemies.get(randomNumber.nextInt(enemies.size()));
@@ -110,6 +128,10 @@ public class Runner extends Application{
     }
 
 // Main game/GUI
+/**
+ * Sets up the GUI and starts the stage
+ * @param primaryStage
+ */
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -198,6 +220,7 @@ public class Runner extends Application{
         root.getChildren().add(thePlayer);
 
         primaryStage.setTitle("Intergalactic Assailants");
+        primaryStage.getIcons().add(new Image(Runner.class.getResourceAsStream("moon.png"))); 
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -205,7 +228,6 @@ public class Runner extends Application{
 // Each timer controls a diffrent game aspect
         // Handles Player movement based on player input
         AnimationTimer timerPlayer = new AnimationTimer() {
-            
             @Override
             public void handle(long now) {
 
