@@ -10,17 +10,23 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.image.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import java.io.File;
 /**
  * Class that runs the game
  */
 
 public class Runner extends Application{
+
 // Instance Variables
 
     private Pane root = new Pane();
     private Scene scene = new Scene(root, 1000, 1000);
     private Player player = new Player(500, 800, 50, 50);
     private boolean movingRight, movingLeft, fireShot;
+    private int enemiesToSpawn, enemiesKilled;
 
 // R.N.G.
 
@@ -36,6 +42,13 @@ public class Runner extends Application{
 
     private ArrayList<Projectile> enemyBullets = new ArrayList<Projectile>();
     private ArrayList<ImageView> theEnemyBullets = new ArrayList<ImageView>();
+
+// Background Music
+
+    String Backgroundmsc = "8_Bit_March.mp3";
+    Media Backgroundsnd = new Media(new File(Backgroundmsc).toURI().toString());
+    MediaPlayer playBackgroundmsc = new MediaPlayer(Backgroundsnd);
+    MediaView viewmsc = new MediaView(playBackgroundmsc);
 
 // Used for Enemy movement
 
@@ -104,6 +117,11 @@ public class Runner extends Application{
         bullets.add(bullet);
         theBullets.add(theBullet);
         root.getChildren().add(theBullet);
+        // SFX
+        String pewSound = "pew.wav";
+        Media sound = new Media(new File(pewSound).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
     }
     /**
      * Method that shoots projectiles from the enemies
@@ -135,6 +153,8 @@ public class Runner extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        playBackgroundmsc.play();
+// Sets up non-enemy/bullet sprites and other images
         // Sets up Player Sprite
         String playerURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/player.png";
         Image playerSprite = new Image(playerURL,50,50,false,true);
@@ -154,6 +174,13 @@ public class Runner extends Application{
         gameOver.setImage(go);
         gameOver.setLayoutX(1500);
         gameOver.setLayoutY(1500);
+        // Sets up Victory!
+        String winURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/win.png";
+        Image win = new Image(winURL, 375,190,false,true);
+        ImageView victory = new ImageView();
+        victory.setImage(win);
+        victory.setLayoutX(2500);
+        victory.setLayoutY(2500);
 
 // Sets up main controls
 // Player holds a and d to move left and right respectivly
@@ -214,9 +241,14 @@ public class Runner extends Application{
             }
         });
         // Sets up Stage and spawns in enemies
+
+        enemiesToSpawn = 35;
+        enemiesKilled = 0;
+
         root.getChildren().add(theBG);
-        spawnEnemies(35);
+        spawnEnemies(enemiesToSpawn);
         root.getChildren().add(gameOver);
+        root.getChildren().add(victory);
         root.getChildren().add(thePlayer);
 
         primaryStage.setTitle("Intergalactic Assailants");
@@ -266,12 +298,24 @@ public class Runner extends Application{
                         }
                     // Relocates enemies after death to avoid collosion with invisible, dead enemies
                     // Removes enemies from list to increase fire rate of remaining enemies 
+                    // If enemy reaches player the game ends
+                        if (player.getLive() == false){
+                            gameOver.setLayoutX(500-(375/2));
+                            gameOver.setLayoutY(500-(190/2));
+                        }
                         if (enemies.get(i).getLive() == false){
                             enemies.get(i).setXCoordinate(1100);
                             enemies.get(i).setYCoordinate(1100);
                             root.getChildren().remove(theEnemies.get(i));
                             theEnemies.remove(theEnemies.get(i));
                             enemies.remove(enemies.get(i));
+                            enemiesKilled ++;
+                        }
+                        if (enemiesKilled == enemiesToSpawn){
+                            player.setLive(false);
+                            ifPlayerCanMove = false;
+                            victory.setLayoutX(500-(375/2));
+                            victory.setLayoutY(500-(190/2));
                         }
                     }
                 }
