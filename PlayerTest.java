@@ -119,10 +119,10 @@ public class PlayerTest {
     public void testSetYCoordinate() {
         testInterface();
         System.out.println("setYCoordinate");
-        int a = 250;
+        int a = 350;
         Player instance = new Player(100, 100);
         instance.setYCoordinate(a);
-        assertEquals("Expected y_Coordinate", 250, instance.getY_Coordinate());
+        assertEquals("Expected y_Coordinate", 350, instance.getY_Coordinate());
     }
 
     /**
@@ -132,9 +132,9 @@ public class PlayerTest {
     public void testMoveDown() {
         testInterface();
         System.out.println("moveDown");
-        Player instance = new Player(100, 200);
+        Player instance = new Player(100, 300);
         instance.moveDown();
-        assertEquals("Expected y_Coordinate", 210, instance.getY_Coordinate());
+        assertEquals("Expected y_Coordinate", 350, instance.getY_Coordinate());
     }
 
 }
