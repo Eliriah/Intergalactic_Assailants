@@ -18,12 +18,12 @@ import java.io.File;
 import java.io.FileInputStream;
 
 /**
- * Main menu screen for the game 19.03.11 Not currently in use
+ * Main menu screen for the game 19.03.15
  */
 
 public class GUI extends Application {
 
-    String filePath = System.getProperty("user.dir");
+    private static String filePath = System.getProperty("user.dir");
 
     // Background Music
     String Backgroundmsc = filePath + "\\SFX\\8_Bit_March.mp3";
