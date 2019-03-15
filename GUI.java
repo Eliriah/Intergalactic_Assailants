@@ -15,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.File;
+import java.io.FileInputStream;
 
 /**
  * Main menu screen for the game 19.03.11 Not currently in use
@@ -22,8 +23,9 @@ import java.io.File;
 
 public class GUI extends Application {
 
-    // Background Music
     String filePath = System.getProperty("user.dir");
+
+    // Background Music
     String Backgroundmsc = filePath + "\\SFX\\8_Bit_March.mp3";
     Media Backgroundsnd = new Media(new File(Backgroundmsc).toURI().toString());
     MediaPlayer playBackgroundmsc = new MediaPlayer(Backgroundsnd);
@@ -35,16 +37,16 @@ public class GUI extends Application {
 
         Pane root = new Pane();
 
-        String titleBg = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/Textures/space.png";
+        FileInputStream titleBg = new FileInputStream(filePath + "\\Textures\\space.png");
         Image titleScreen = new Image(titleBg, 1920, 1080, false, true);
-        String titleText = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/Textures/title.png";
+        FileInputStream titleText = new FileInputStream(filePath + "\\Textures\\title.png");
         Image title = new Image(titleText, 777, 174, false, true);
-        String playURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/Textures/start.png";
-        Image playButton = new Image(playURL, 269, 84, false, true);
-        String exitURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/Textures/exit.png";
-        Image exitButton = new Image(exitURL, 267, 82, false, true);
-        String scoreURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/Textures/score.png";
-        Image score = new Image(scoreURL, 186, 44, false, true);
+        FileInputStream playPath = new FileInputStream(filePath + "\\Textures\\start.png");
+        Image playButton = new Image(playPath, 269, 84, false, true);
+        FileInputStream exitPath = new FileInputStream(filePath + "\\Textures\\exit.png");
+        Image exitButton = new Image(exitPath, 267, 82, false, true);
+        FileInputStream scorePath = new FileInputStream(filePath + "\\Textures\\score.png");
+        Image score = new Image(scorePath, 186, 44, false, true);
 
         ImageView scoreNode = new ImageView();
         scoreNode.setImage(score);
