@@ -14,62 +14,35 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import java.io.File;
-/**
- * Class that runs the game
- */
 
-public class Runner extends Application{
+public abstract class Runner extends Application{
 
 // Instance Variables
 
-    private Pane root = new Pane();
-    private Scene scene = new Scene(root, 1000, 1000);
-    private Player player = new Player(500, 800, 50, 50);
-    private boolean movingRight, movingLeft, fireShot;
-    private int enemiesToSpawn, enemiesKilled;
+    private static Pane root = new Pane();
+    private static Scene scene = new Scene(root, 1000, 1000);
+    private static Player player = new Player(500, 800, 50, 50);
+    private static boolean movingRight, movingLeft, fireShot;
+    private static int enemiesToSpawn, enemiesKilled;
 
 // R.N.G.
 
-    private Random randomNumber = new Random();
+    static Random randomNumber = new Random();
 
 // Arraylists
 
-    private ArrayList<Projectile> bullets = new ArrayList<Projectile>();
-    private ArrayList<ImageView> theBullets = new ArrayList<ImageView>();
+    private static ArrayList<Projectile> bullets = new ArrayList<Projectile>();
+    private static ArrayList<ImageView> theBullets = new ArrayList<ImageView>();
 
-    private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-    private ArrayList<ImageView> theEnemies = new ArrayList<ImageView>();
+    private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+    private static ArrayList<ImageView> theEnemies = new ArrayList<ImageView>();
 
-    private ArrayList<Projectile> enemyBullets = new ArrayList<Projectile>();
-    private ArrayList<ImageView> theEnemyBullets = new ArrayList<ImageView>();
-
-// Background Music
-
-    String Backgroundmsc = "8_Bit_March.mp3";
-    Media Backgroundsnd = new Media(new File(Backgroundmsc).toURI().toString());
-    MediaPlayer playBackgroundmsc = new MediaPlayer(Backgroundsnd);
-    MediaView viewmsc = new MediaView(playBackgroundmsc);
-
-// Used for Enemy movement
-
-    static boolean ifPlayerCanMove = true;
-
-    /**
-     * Sets if the player can move or not
-     * @param a
-     */
-
-    public static void setIfPlayerCanMove(boolean a){
-        ifPlayerCanMove = a;
-    }
+    private static ArrayList<Projectile> enemyBullets = new ArrayList<Projectile>();
+    private static ArrayList<ImageView> theEnemyBullets = new ArrayList<ImageView>();
 
 // Methods for Spawning game elements 
-/**
- * Spawns enemies onto the screen
- * @param numberOfEnemies
- */
 
-    public void spawnEnemies(int numberOfEnemies){
+    public static void spawnEnemies(int numberOfEnemies){
         // Used to seperate Enemy Spawns
         int x = 0;
         int y = 0;
@@ -99,10 +72,7 @@ public class Runner extends Application{
             x++;
         }
     }
-    /**
-     * Method that allows the player to shoot projectiles
-     */
-    public void shootProjectile(){
+    public static void shootProjectile(){
         // Creates Projectile
         Projectile bullet = new Projectile(player.getX_Coordinate(), player.getY_Coordinate(), 20, 40, true);
         // Creates Procetile sprite
@@ -123,10 +93,7 @@ public class Runner extends Application{
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();
     }
-    /**
-     * Method that shoots projectiles from the enemies
-     */
-    public void shootEnemyProjectile(){
+    public static void shootEnemyProjectile(){
         // One enemy will randomly shoot
         Enemy enemyBullet = enemies.get(randomNumber.nextInt(enemies.size()));
         // Creates Projectile
@@ -146,15 +113,8 @@ public class Runner extends Application{
     }
 
 // Main game/GUI
-/**
- * Sets up the GUI and starts the stage
- * @param primaryStage
- */
-
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        playBackgroundmsc.play();
-// Sets up non-enemy/bullet sprites and other images
+    public static void startGame(Stage primaryStage){
+// Sets up non-enemy/bullet spites and other images
         // Sets up Player Sprite
         String playerURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/player.png";
         Image playerSprite = new Image(playerURL,50,50,false,true);
@@ -252,7 +212,6 @@ public class Runner extends Application{
         root.getChildren().add(thePlayer);
 
         primaryStage.setTitle("Intergalactic Assailants");
-        primaryStage.getIcons().add(new Image(Runner.class.getResourceAsStream("moon.png"))); 
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -260,22 +219,23 @@ public class Runner extends Application{
 // Each timer controls a diffrent game aspect
         // Handles Player movement based on player input
         AnimationTimer timerPlayer = new AnimationTimer() {
+            
             @Override
             public void handle(long now) {
 
                 if (movingLeft) {
-                    if(ifPlayerCanMove == true){
+                    if(player.getLive() == true){
                         if (player.getX_Coordinate() > 5){
-                            player.moveLeft();
+                            player.moveLeft(5);
                             thePlayer.setLayoutX(player.getX_Coordinate());
                         }   
                     }
                 }
 
                 if (movingRight){
-                    if(ifPlayerCanMove == true){
+                    if(player.getLive() == true){
                         if (player.getX_Coordinate() < 950){
-                            player.moveRight();
+                            player.moveRight(5);
                             thePlayer.setLayoutX(player.getX_Coordinate());
                         }
                     }
@@ -298,7 +258,7 @@ public class Runner extends Application{
                         }
                     // Relocates enemies after death to avoid collosion with invisible, dead enemies
                     // Removes enemies from list to increase fire rate of remaining enemies 
-                    // If enemy reaches player the game ends
+                    // Checks if all enemies have died, ends game if they have
                         if (player.getLive() == false){
                             gameOver.setLayoutX(500-(375/2));
                             gameOver.setLayoutY(500-(190/2));
@@ -309,13 +269,14 @@ public class Runner extends Application{
                             root.getChildren().remove(theEnemies.get(i));
                             theEnemies.remove(theEnemies.get(i));
                             enemies.remove(enemies.get(i));
+
                             enemiesKilled ++;
-                        }
-                        if (enemiesKilled == enemiesToSpawn){
-                            player.setLive(false);
-                            ifPlayerCanMove = false;
-                            victory.setLayoutX(500-(375/2));
-                            victory.setLayoutY(500-(190/2));
+
+                            if (enemiesKilled == enemiesToSpawn){
+                                player.setLive(false);
+                                victory.setLayoutX(500-(375/2));
+                                victory.setLayoutY(500-(190/2));
+                            }
                         }
                     }
                 }
@@ -327,14 +288,14 @@ public class Runner extends Application{
             @Override
             public void handle(long now) {
                 for(int i = 0; i<bullets.size(); i++){
-
+                    // Collision for projectiles
                     if (bullets.get(i).getLive() == true && bullets.get(i).getY_Coordinate() < 1100){
-                        bullets.get(i).projectileMovement();
+                        bullets.get(i).projectileMoving(7);
                         theBullets.get(i).setLayoutY(bullets.get(i).getY_Coordinate());
                     }
-
+                    // Collision for enemies
                     for (int e = 0; e < enemies.size(); e++){
-                        if (bullets.get(i).getProjectileBoundary().intersects(enemies.get(e).getEnemyBoundary()) && bullets.get(i).getLive() == true){
+                        if (bullets.get(i).getUnitHitBox().intersects(enemies.get(e).getUnitHitBox()) && bullets.get(i).getLive() == true){
                             enemies.get(e).setLive(false);
                             bullets.get(i).setLive(false);
                             root.getChildren().remove(theBullets.get(i));
@@ -351,13 +312,12 @@ public class Runner extends Application{
                 for(int i = 0; i<enemyBullets.size(); i++){
 
                     if (enemyBullets.get(i).getLive() == true && enemyBullets.get(i).getY_Coordinate() > 0){
-                        enemyBullets.get(i).projectileMovement();
+                        enemyBullets.get(i).projectileMoving(9);
                         theEnemyBullets.get(i).setLayoutY(enemyBullets.get(i).getY_Coordinate());
                     }
 
-                    if (enemyBullets.get(i).getProjectileBoundary().intersects(player.getPlayerBoundary())){
+                    if (enemyBullets.get(i).getUnitHitBox().intersects(player.getUnitHitBox())){
                         player.setLive(false);
-                        ifPlayerCanMove = false;
                         root.getChildren().remove(thePlayer);
                         gameOver.setLayoutX(500-(375/2));
                         gameOver.setLayoutY(500-(190/2));

@@ -16,18 +16,31 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import java.io.File;
+import java.io.*;
 /**
  * Main menu screen for the game
  * 19.03.11
  * Not currently in use
  */
 
-public class GUI extends Application {  
-    public static void main(String args[]) { 
-        launch(args); 
-    }
+public class GUI extends Application { 
+
+    // Background Music
+
+    String Backgroundmsc = "8_Bit_March.mp3";
+    Media Backgroundsnd = new Media(new File(Backgroundmsc).toURI().toString());
+    MediaPlayer playBackgroundmsc = new MediaPlayer(Backgroundsnd);
+    MediaView viewmsc = new MediaView(playBackgroundmsc);
+
     @Override 
-    public void start(Stage stage) throws FileNotFoundException {
+    public void start(Stage stage) throws Exception {
+
+        playBackgroundmsc.play();
+
         Pane root = new Pane();
 
         String titleBg = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/space.png";
@@ -56,22 +69,28 @@ public class GUI extends Application {
         play_button.setGraphic(playButtonNode);
         play_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         play_button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent exit) {
-                root.getChildren().add(scoreNode);
+
+            @Override 
+            public void handle(ActionEvent exit) {
+                Runner.startGame(stage);
             }
         }
         );
+
         Button exit_button  = new Button();
         ImageView exitButtonNode = new ImageView();
         exitButtonNode.setImage(exitButton); 
         exit_button.setGraphic(exitButtonNode);
         exit_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         exit_button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent exit) {
+
+            @Override 
+            public void handle(ActionEvent exit) {
                 System.exit(0);
             }
         }
         );
+
         imageView.setLayoutX(0); 
         imageView.setLayoutY(0); 
         imageView.setFitHeight(1080); 
@@ -96,9 +115,8 @@ public class GUI extends Application {
 
 
         root.getChildren().addAll(imageView, titleNode, play_button, exit_button);
-        Scene scene = new Scene(root, 1800, 1040); 
+        Scene scene = new Scene(root, 1300, 730); 
         stage.setTitle("Intergalactic Assailants");  
-        stage.getIcons().add(new Image(GUI.class.getResourceAsStream("moon.png"))); 
         stage.setScene(scene);
         stage.show(); 
     }
