@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author hrithvik
+ * @author T10G04
  */
 public class PlayerTest {
     public static final String CLASSNAME = "Player";
@@ -42,7 +42,7 @@ public class PlayerTest {
     public void testGetX_Coordinate() {
         testInterface();
         System.out.println("getX_Coordinate");
-        Player instance = new Player(700, 500);
+        Player instance = new Player(700, 500, 100, 200);
         int expResult = 700;
         assertEquals("Expected result is ",expResult, instance.getX_Coordinate());
     }
@@ -54,7 +54,7 @@ public class PlayerTest {
     public void testGetY_Coordinate() {
         testInterface();
         System.out.println("getY_Coordinate");
-        Player instance = new Player(400, 800);
+        Player instance = new Player(400, 800, 400, 300);
         int expResult = 800;
         assertEquals("Expected value ", expResult, instance.getY_Coordinate());
     }
@@ -66,7 +66,7 @@ public class PlayerTest {
     public void testGetLive() {
         testInterface();
         System.out.println("getLive");
-        Player instance = new Player(80, 80);
+        Player instance = new Player(80, 80, 0, 0);
         boolean expResult = true;
         boolean result = instance.getLive();
         assertEquals("Expected result true", expResult, result);
@@ -81,9 +81,9 @@ public class PlayerTest {
     public void testMoveRight() {
         testInterface();
         System.out.println("moveRight");
-        Player instance = new Player(80, 80);
+        Player instance = new Player(80, 80, 0, 0);
         int expResult = 85;
-        instance.moveRight();
+        instance.moveRight(5);
         assertEquals("Expected x_Coordinate", expResult, instance.getX_Coordinate());
     }
 
@@ -94,8 +94,8 @@ public class PlayerTest {
     public void testMoveLeft() {
         testInterface();
         System.out.println("moveLeft");
-        Player instance = new Player(100, 120);
-        instance.moveLeft();
+        Player instance = new Player(100, 120, 0, 0);
+        instance.moveLeft(5);
         assertEquals("Expected x_Coordinate", 95, instance.getX_Coordinate());
     }
 
@@ -107,7 +107,7 @@ public class PlayerTest {
         testInterface();
         System.out.println("setXCoordinate");
         int a = 150;
-        Player instance = new Player(80, 100);
+        Player instance = new Player(80, 100, a, a);
         instance.setXCoordinate(a);
         assertEquals("Expected x_Coordinate", 150, instance.getX_Coordinate());
     }
@@ -120,7 +120,7 @@ public class PlayerTest {
         testInterface();
         System.out.println("setYCoordinate");
         int a = 350;
-        Player instance = new Player(100, 100);
+        Player instance = new Player(100, 100, a, a);
         instance.setYCoordinate(a);
         assertEquals("Expected y_Coordinate", 350, instance.getY_Coordinate());
     }
@@ -132,8 +132,8 @@ public class PlayerTest {
     public void testMoveDown() {
         testInterface();
         System.out.println("moveDown");
-        Player instance = new Player(100, 300);
-        instance.moveDown();
+        Player instance = new Player(100, 300, 0, 0);
+        instance.moveDown(50);
         assertEquals("Expected y_Coordinate", 350, instance.getY_Coordinate());
     }
 
