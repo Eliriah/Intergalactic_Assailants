@@ -71,7 +71,6 @@ public class GUI extends Application {
                 try {
                     Runner.startGame(stage);
                 } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }

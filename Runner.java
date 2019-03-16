@@ -159,7 +159,6 @@ public abstract class Runner extends Application {
                         try {
                             shootEnemyProjectile();
                         } catch (FileNotFoundException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                     break;
@@ -171,7 +170,6 @@ public abstract class Runner extends Application {
                         try {
                             shootEnemyProjectile();
                         } catch (FileNotFoundException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                     break;
@@ -195,7 +193,6 @@ public abstract class Runner extends Application {
                         try {
                             shootEnemyProjectile();
                         } catch (FileNotFoundException e1) {
-                            // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
                     break;
@@ -207,7 +204,6 @@ public abstract class Runner extends Application {
                         try {
                             shootEnemyProjectile();
                         } catch (FileNotFoundException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                     break;
@@ -217,7 +213,6 @@ public abstract class Runner extends Application {
                         try {
                             shootProjectile();
                         } catch (FileNotFoundException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                     fireShot = false;
