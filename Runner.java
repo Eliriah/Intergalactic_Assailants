@@ -9,7 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import java.io.File;
+import java.io.*;
 
 public abstract class Runner extends Application {
 
@@ -20,6 +20,7 @@ public abstract class Runner extends Application {
     private static Player player = new Player(500, 800, 50, 50);
     private static boolean movingRight, movingLeft, fireShot;
     private static int enemiesToSpawn, enemiesKilled;
+    private static String filePath = System.getProperty("user.dir");
 
     // R.N.G.
 
@@ -38,7 +39,7 @@ public abstract class Runner extends Application {
 
     // Methods for Spawning game elements
 
-    public static void spawnEnemies(int numberOfEnemies) {
+    public static void spawnEnemies(int numberOfEnemies) throws FileNotFoundException {
         // Used to seperate Enemy Spawns
         int x = 0;
         int y = 0;
@@ -53,8 +54,8 @@ public abstract class Runner extends Application {
             if (y % 2 != 0)
                 enemy.setEnemyMovementRight(false);
             // Enemy sprite setup
-            String enemyURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/Textures/ufo.png";
-            Image enemySprite = new Image(enemyURL, 50, 50, false, true);
+            FileInputStream enemyPath = new FileInputStream(filePath + "\\Textures\\ufo.png");
+            Image enemySprite = new Image(enemyPath, 50, 50, false, true);
             ImageView theEnemy = new ImageView();
             theEnemy.setImage(enemySprite);
             // Sets Layout and adds enemy and sprite to the scene and corrseponding arrays
@@ -69,12 +70,12 @@ public abstract class Runner extends Application {
         }
     }
 
-    public static void shootProjectile() {
+    public static void shootProjectile() throws FileNotFoundException {
         // Creates Projectile
         Projectile bullet = new Projectile(player.getX_Coordinate(), player.getY_Coordinate(), 20, 40, true);
         // Creates Procetile sprite
-        String bulletURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/Textures/missle.png";
-        Image bulletSprite = new Image(bulletURL, 20, 50, false, true);
+        FileInputStream bulletPath = new FileInputStream(filePath + "\\Textures\\missle.png");
+        Image bulletSprite = new Image(bulletPath, 20, 50, false, true);
         ImageView theBullet = new ImageView();
         theBullet.setImage(bulletSprite);
         // Spawns Projectile @ player location
@@ -92,14 +93,14 @@ public abstract class Runner extends Application {
         mediaPlayer.play();
     }
 
-    public static void shootEnemyProjectile() {
+    public static void shootEnemyProjectile() throws FileNotFoundException {
         // One enemy will randomly shoot
         Enemy enemyBullet = enemies.get(randomNumber.nextInt(enemies.size()));
         // Creates Projectile
         Projectile bullet = new Projectile(enemyBullet.getX_Coordinate(), enemyBullet.getY_Coordinate(), 20, 40, false);
         // Creates Procetile sprite
-        String bulletURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/Textures/pew.png";
-        Image bulletSprite = new Image(bulletURL, 20, 50, false, true);
+        FileInputStream bulletPath = new FileInputStream(filePath + "\\Textures\\pew.png");
+        Image bulletSprite = new Image(bulletPath, 20, 50, false, true);
         ImageView theBullet = new ImageView();
         theBullet.setImage(bulletSprite);
         // Spawns Projectile @ enemy location
@@ -112,30 +113,30 @@ public abstract class Runner extends Application {
     }
 
     // Main game/GUI
-    public static void startGame(Stage primaryStage) {
+    public static void startGame(Stage primaryStage) throws FileNotFoundException {
         // Sets up non-enemy/bullet spites and other images
         // Sets up Player Sprite
-        String playerURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/Textures/player.png";
-        Image playerSprite = new Image(playerURL, 50, 50, false, true);
+        FileInputStream playerPath = new FileInputStream(filePath + "\\Textures\\player.png");
+        Image playerSprite = new Image(playerPath, 50, 50, false, true);
         ImageView thePlayer = new ImageView();
         thePlayer.setImage(playerSprite);
         thePlayer.setLayoutY(player.getY_Coordinate());
         thePlayer.setLayoutX(player.getX_Coordinate());
         // Sets up Backround image
-        String bgURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/Textures/bg.png";
-        Image bg = new Image(bgURL, 1000, 1000, false, true);
+        FileInputStream bgPath = new FileInputStream(filePath + "\\Textures\\bg.png");
+        Image bg = new Image(bgPath, 1000, 1000, false, true);
         ImageView theBG = new ImageView();
         theBG.setImage(bg);
         // Sets up Game Over
-        String goURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/Textures/game%20over.png";
-        Image go = new Image(goURL, 375, 190, false, true);
+        FileInputStream goPath = new FileInputStream(filePath + "\\Textures\\game over.png");
+        Image go = new Image(goPath, 375, 190, false, true);
         ImageView gameOver = new ImageView();
         gameOver.setImage(go);
         gameOver.setLayoutX(1500);
         gameOver.setLayoutY(1500);
         // Sets up Victory!
-        String winURL = "https://raw.githubusercontent.com/Eliriah/Intergalactic_Assailants/master/Textures/win.png";
-        Image win = new Image(winURL, 375, 190, false, true);
+        FileInputStream winPath = new FileInputStream(filePath + "\\Textures\\win.png");
+        Image win = new Image(winPath, 375, 190, false, true);
         ImageView victory = new ImageView();
         victory.setImage(win);
         victory.setLayoutX(2500);
@@ -155,14 +156,24 @@ public abstract class Runner extends Application {
                     movingRight = true;
                     int random1 = randomNumber.nextInt(2);
                     if (random1 == 0 && player.getLive() == true)
-                        shootEnemyProjectile();
+                        try {
+                            shootEnemyProjectile();
+                        } catch (FileNotFoundException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                     break;
 
                 case A:
                     movingLeft = true;
                     int random2 = randomNumber.nextInt(2);
                     if (random2 == 0 && player.getLive() == true)
-                        shootEnemyProjectile();
+                        try {
+                            shootEnemyProjectile();
+                        } catch (FileNotFoundException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                     break;
 
                 case SPACE:
@@ -181,19 +192,34 @@ public abstract class Runner extends Application {
                     movingRight = false;
                     int random1 = randomNumber.nextInt(2);
                     if (random1 == 0 && player.getLive() == true)
-                        shootEnemyProjectile();
+                        try {
+                            shootEnemyProjectile();
+                        } catch (FileNotFoundException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
                     break;
 
                 case A:
                     movingLeft = false;
                     int random2 = randomNumber.nextInt(2);
                     if (random2 == 0 && player.getLive() == true)
-                        shootEnemyProjectile();
+                        try {
+                            shootEnemyProjectile();
+                        } catch (FileNotFoundException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                     break;
 
                 case SPACE:
                     if (fireShot && player.getLive())
-                        shootProjectile();
+                        try {
+                            shootProjectile();
+                        } catch (FileNotFoundException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                     fireShot = false;
                     break;
                 }

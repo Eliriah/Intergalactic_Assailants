@@ -16,6 +16,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Main menu screen for the game 19.03.15
@@ -67,7 +68,12 @@ public class GUI extends Application {
 
             @Override
             public void handle(ActionEvent exit) {
-                Runner.startGame(stage);
+                try {
+                    Runner.startGame(stage);
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
         });
 
