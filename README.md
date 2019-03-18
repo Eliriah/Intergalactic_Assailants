@@ -10,7 +10,7 @@ Extract to folder.
 Open terminal and open directory where you downloaded the files.
 Type in "javac -cp .;junit-4.12.jar;hamcrest-core-1.3.jar *.java" to compile all the files.
 Type in "java -cp .;junit-4.12.jar;hamcrest-core-1.3.jar org.junit.runner.JUnitCore PlayerTest" to run the junit test.
-Type in java Runner in the terminal to run the game.
+Type in java GUI in the terminal to run the game.
 
 ## Credits
 T10G4
