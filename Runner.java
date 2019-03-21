@@ -3,12 +3,14 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.*;
+import javafx.scene.control.Label;
 import javafx.scene.image.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import java.io.*;
 
 public abstract class Runner extends Application {
@@ -160,6 +162,19 @@ public abstract class Runner extends Application {
         gameOver.setImage(go);
         gameOver.setLayoutX(1500);
         gameOver.setLayoutY(1500);
+        // Sets up Score
+        FileInputStream scorePath = new FileInputStream(filePath + "\\Textures\\score.png");
+        Image scoreI = new Image(scorePath, 186, 44, false, true);
+        ImageView scoreText = new ImageView();
+        scoreText.setImage(scoreI);
+        scoreText.setLayoutX(350);
+        scoreText.setLayoutY(900);
+        // sets up Score label
+        score = 0;
+        String aScore = score + "";
+        Label theScore = new Label(aScore);
+        theScore.setLayoutX(570);
+        theScore.setLayoutY(915);
 
         // Sets up main controls
         // Player holds a and d to move left and right respectivly
@@ -170,7 +185,6 @@ public abstract class Runner extends Application {
         enemyProjectileSpeed = 9;
         enemiesToSpawn = 20;
         enemiesKilled = 0;
-        score = 0;
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -263,7 +277,9 @@ public abstract class Runner extends Application {
         root.getChildren().add(theBG);
         spawnEnemies(enemiesToSpawn);
         root.getChildren().add(gameOver);
+        root.getChildren().add(scoreText);
         root.getChildren().add(thePlayer);
+        root.getChildren().add(theScore);
 
         primaryStage.setTitle("Intergalactic Assailants");
         primaryStage.setScene(scene);
@@ -329,6 +345,10 @@ public abstract class Runner extends Application {
                             enemies.remove(enemies.get(i));
 
                             enemiesKilled++;
+
+                            score += 100;
+                            String aScoreChange = score + "";
+                            theScore.setText(aScoreChange);
                         }
                     }
                 }
@@ -351,7 +371,6 @@ public abstract class Runner extends Application {
                             enemies.get(e).setLive(false);
                             bullets.get(i).setLive(false);
                             root.getChildren().remove(theBullets.get(i));
-                            score += 100;
                         }
                     }
                 }
