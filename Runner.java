@@ -17,9 +17,9 @@ public abstract class Runner extends Application {
 
     private static Pane root = new Pane();
     private static Scene scene = new Scene(root, 1000, 1000);
-    private static Player player = new Player(500, 800, 50, 50);
+    private static Player player = new Player(500, 800, 40, 40);
     private static boolean movingRight, movingLeft, fireShot;
-    private static int enemiesToSpawn, enemiesKilled;
+    private static int enemiesToSpawn, enemiesKilled, enemyMovementSpeed, enemyProjectileSpeed, wavesKilled, score;
     private static String filePath = System.getProperty("user.dir");
 
     // R.N.G.
@@ -112,9 +112,35 @@ public abstract class Runner extends Application {
         root.getChildren().add(theBullet);
     }
 
+    public static void spawnWaves(){
+        // Spawns new Waves of enemies
+        if (enemiesKilled == enemiesToSpawn){
+            wavesKilled ++;
+            enemiesKilled = 0;
+            // increases amount of enemies by 2 per wave killed
+            if (enemiesToSpawn < 40)
+                enemiesToSpawn += 2;
+            // increases speed of enemies every other wave
+            if (wavesKilled % 2 == 0)
+                enemyMovementSpeed ++;
+            // increases projectile speed every 4th wave killed
+            if (wavesKilled % 4 == 0)
+                enemyProjectileSpeed ++;
+            try {
+                spawnEnemies(enemiesToSpawn);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     // Main game/GUI
     public static void startGame(Stage primaryStage) throws FileNotFoundException {
         // Sets up non-enemy/bullet spites and other images
+    
+        String loserMsc = filePath + "\\SFX\\Naruto - Sadness and Sorrow 8 Bit.Mp3";
+        Media loserSnd = new Media(new File(loserMsc).toURI().toString());
+        MediaPlayer playLoserMsc = new MediaPlayer(loserSnd);
         // Sets up Player Sprite
         FileInputStream playerPath = new FileInputStream(filePath + "\\Textures\\player.png");
         Image playerSprite = new Image(playerPath, 50, 50, false, true);
@@ -134,18 +160,17 @@ public abstract class Runner extends Application {
         gameOver.setImage(go);
         gameOver.setLayoutX(1500);
         gameOver.setLayoutY(1500);
-        // Sets up Victory!
-        FileInputStream winPath = new FileInputStream(filePath + "\\Textures\\win.png");
-        Image win = new Image(winPath, 375, 190, false, true);
-        ImageView victory = new ImageView();
-        victory.setImage(win);
-        victory.setLayoutX(2500);
-        victory.setLayoutY(2500);
 
         // Sets up main controls
         // Player holds a and d to move left and right respectivly
         // Player taps then releases space to shoot
         // Uses R.N.G to determine if enemies shoot
+
+        enemyMovementSpeed = 5;
+        enemyProjectileSpeed = 9;
+        enemiesToSpawn = 20;
+        enemiesKilled = 0;
+        score = 0;
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -154,6 +179,7 @@ public abstract class Runner extends Application {
 
                 case D:
                     movingRight = true;
+                    spawnWaves();
                     int random1 = randomNumber.nextInt(2);
                     if (random1 == 0 && player.getLive() == true)
                         try {
@@ -165,6 +191,7 @@ public abstract class Runner extends Application {
 
                 case A:
                     movingLeft = true;
+                    spawnWaves();
                     int random2 = randomNumber.nextInt(2);
                     if (random2 == 0 && player.getLive() == true)
                         try {
@@ -175,7 +202,15 @@ public abstract class Runner extends Application {
                     break;
 
                 case SPACE:
+                    spawnWaves();
                     fireShot = true;
+                    if (player.getLive() == true)
+                        try {
+                            shootEnemyProjectile();
+                            shootEnemyProjectile();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
                     break;
                 }
 
@@ -188,6 +223,7 @@ public abstract class Runner extends Application {
                 switch (event.getCode()) {
                 case D:
                     movingRight = false;
+                    spawnWaves();
                     int random1 = randomNumber.nextInt(2);
                     if (random1 == 0 && player.getLive() == true)
                         try {
@@ -199,6 +235,7 @@ public abstract class Runner extends Application {
 
                 case A:
                     movingLeft = false;
+                    spawnWaves();
                     int random2 = randomNumber.nextInt(2);
                     if (random2 == 0 && player.getLive() == true)
                         try {
@@ -209,6 +246,7 @@ public abstract class Runner extends Application {
                     break;
 
                 case SPACE:
+                    spawnWaves();
                     if (fireShot && player.getLive())
                         try {
                             shootProjectile();
@@ -222,13 +260,9 @@ public abstract class Runner extends Application {
         });
         // Sets up Stage and spawns in enemies
 
-        enemiesToSpawn = 35;
-        enemiesKilled = 0;
-
         root.getChildren().add(theBG);
         spawnEnemies(enemiesToSpawn);
         root.getChildren().add(gameOver);
-        root.getChildren().add(victory);
         root.getChildren().add(thePlayer);
 
         primaryStage.setTitle("Intergalactic Assailants");
@@ -271,10 +305,12 @@ public abstract class Runner extends Application {
                 if (player.getLive()) {
                     for (int i = 0; i < enemies.size(); i++) {
 
-                        if (enemies.get(i).getLive()) {
-                            enemies.get(i).enemyMovement(player);
+                        if (enemies.get(i).getLive() && player.getLive()) {
+                            enemies.get(i).enemyMovement(enemyMovementSpeed);
                             theEnemies.get(i).setLayoutX(enemies.get(i).getX_Coordinate());
                             theEnemies.get(i).setLayoutY(enemies.get(i).getY_Coordinate());
+                            if (enemies.get(i).getUnitHitBox().intersects(player.getUnitHitBox()))
+                                player.setLive(false);
                         }
                         // Relocates enemies after death to avoid collosion with invisible, dead enemies
                         // Removes enemies from list to increase fire rate of remaining enemies
@@ -282,6 +318,8 @@ public abstract class Runner extends Application {
                         if (player.getLive() == false) {
                             gameOver.setLayoutX(500 - (375 / 2));
                             gameOver.setLayoutY(500 - (190 / 2));
+                            GUI.stopBackroundMusic();
+                            playLoserMsc.play();
                         }
                         if (enemies.get(i).getLive() == false) {
                             enemies.get(i).setXCoordinate(1100);
@@ -291,12 +329,6 @@ public abstract class Runner extends Application {
                             enemies.remove(enemies.get(i));
 
                             enemiesKilled++;
-
-                            if (enemiesKilled == enemiesToSpawn) {
-                                player.setLive(false);
-                                victory.setLayoutX(500 - (375 / 2));
-                                victory.setLayoutY(500 - (190 / 2));
-                            }
                         }
                     }
                 }
@@ -315,11 +347,11 @@ public abstract class Runner extends Application {
                     }
                     // Collision for enemies
                     for (int e = 0; e < enemies.size(); e++) {
-                        if (bullets.get(i).getUnitHitBox().intersects(enemies.get(e).getUnitHitBox())
-                                && bullets.get(i).getLive() == true) {
+                        if (bullets.get(i).getUnitHitBox().intersects(enemies.get(e).getUnitHitBox()) && bullets.get(i).getLive() == true) {
                             enemies.get(e).setLive(false);
                             bullets.get(i).setLive(false);
                             root.getChildren().remove(theBullets.get(i));
+                            score += 100;
                         }
                     }
                 }
@@ -333,7 +365,7 @@ public abstract class Runner extends Application {
                 for (int i = 0; i < enemyBullets.size(); i++) {
 
                     if (enemyBullets.get(i).getLive() == true && enemyBullets.get(i).getY_Coordinate() > 0) {
-                        enemyBullets.get(i).projectileMoving(9);
+                        enemyBullets.get(i).projectileMoving(enemyProjectileSpeed);
                         theEnemyBullets.get(i).setLayoutY(enemyBullets.get(i).getY_Coordinate());
                     }
 
@@ -342,6 +374,8 @@ public abstract class Runner extends Application {
                         root.getChildren().remove(thePlayer);
                         gameOver.setLayoutX(500 - (375 / 2));
                         gameOver.setLayoutY(500 - (190 / 2));
+                        GUI.stopBackroundMusic();
+                        playLoserMsc.play();
                     }
                 }
             }

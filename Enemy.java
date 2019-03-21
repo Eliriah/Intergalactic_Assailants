@@ -19,31 +19,20 @@ public class Enemy extends Player {
     }
 
     // Movement
-    public void enemyMovement(Player player) {
-        if (getEnemyMovementRight() == true) {
-            if (getX_Coordinate() == (900)) {
-                if (getY_Coordinate() < 800)
-                    moveDown(50);
+    public void enemyMovement(int enemySpeed) {
+        if (getEnemyMovementRight() == true){
+            if (getX_Coordinate() >= 930){
+                moveDown(50);
                 setEnemyMovementRight(false);
-            } else {
-                if (getX_Coordinate() != player.getX_Coordinate() - 50 || getY_Coordinate() < 800)
-                    moveRight(5);
-                else {
-                    player.setLive(false);
-                }
             }
-        } else {
-            if (getX_Coordinate() == 0) {
-                if (getY_Coordinate() < 800)
-                    moveDown(50);
+            moveRight(enemySpeed);
+        }
+        else {
+            if (getX_Coordinate() <= 0){
+                moveDown(50);
                 setEnemyMovementRight(true);
-            } else {
-                if (getX_Coordinate() != player.getX_Coordinate() + 50 || getY_Coordinate() < 800)
-                    moveLeft(5);
-                else {
-                    player.setLive(false);
-                }
             }
+            moveLeft(enemySpeed);
         }
     }
 }
