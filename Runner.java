@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import java.io.*;
 
 public abstract class Runner extends Application {
@@ -89,7 +91,7 @@ public abstract class Runner extends Application {
         root.getChildren().add(theBullet);
         // SFX
         String filePath = System.getProperty("user.dir");
-        String pewSound = filePath + "\\SFX\\pew.wav";
+        String pewSound = filePath + "\\SFX\\pew.mp3";
         Media sound = new Media(new File(pewSound).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();
@@ -114,20 +116,20 @@ public abstract class Runner extends Application {
         root.getChildren().add(theBullet);
     }
 
-    public static void spawnWaves(){
+    public static void spawnWaves() {
         // Spawns new Waves of enemies
-        if (enemiesKilled == enemiesToSpawn){
-            wavesKilled ++;
+        if (enemiesKilled == enemiesToSpawn) {
+            wavesKilled++;
             enemiesKilled = 0;
             // increases amount of enemies by 2 per wave killed
             if (enemiesToSpawn < 40)
                 enemiesToSpawn += 2;
             // increases speed of enemies every other wave
             if (wavesKilled % 2 == 0)
-                enemyMovementSpeed ++;
+                enemyMovementSpeed++;
             // increases projectile speed every 4th wave killed
             if (wavesKilled % 4 == 0)
-                enemyProjectileSpeed ++;
+                enemyProjectileSpeed++;
             try {
                 spawnEnemies(enemiesToSpawn);
             } catch (FileNotFoundException e) {
@@ -139,7 +141,7 @@ public abstract class Runner extends Application {
     // Main game/GUI
     public static void startGame(Stage primaryStage) throws FileNotFoundException {
         // Sets up non-enemy/bullet spites and other images
-    
+
         String loserMsc = filePath + "\\SFX\\Naruto - Sadness and Sorrow 8 Bit.Mp3";
         Media loserSnd = new Media(new File(loserMsc).toURI().toString());
         MediaPlayer playLoserMsc = new MediaPlayer(loserSnd);
@@ -167,14 +169,16 @@ public abstract class Runner extends Application {
         Image scoreI = new Image(scorePath, 186, 44, false, true);
         ImageView scoreText = new ImageView();
         scoreText.setImage(scoreI);
-        scoreText.setLayoutX(350);
-        scoreText.setLayoutY(900);
+        scoreText.setLayoutX(0);
+        scoreText.setLayoutY(950);
         // sets up Score label
         score = 0;
-        String aScore = score + "";
-        Label theScore = new Label(aScore);
-        theScore.setLayoutX(570);
-        theScore.setLayoutY(915);
+        String scoreString = score + "";
+        Label theScore = new Label(scoreString);
+        theScore.setFont(new Font("Arial", 34));
+        theScore.setTextFill(Color.rgb(255, 193, 170));
+        theScore.setLayoutX(200);
+        theScore.setLayoutY(955);
 
         // Sets up main controls
         // Player holds a and d to move left and right respectivly
@@ -367,7 +371,8 @@ public abstract class Runner extends Application {
                     }
                     // Collision for enemies
                     for (int e = 0; e < enemies.size(); e++) {
-                        if (bullets.get(i).getUnitHitBox().intersects(enemies.get(e).getUnitHitBox()) && bullets.get(i).getLive() == true) {
+                        if (bullets.get(i).getUnitHitBox().intersects(enemies.get(e).getUnitHitBox())
+                                && bullets.get(i).getLive() == true) {
                             enemies.get(e).setLive(false);
                             bullets.get(i).setLive(false);
                             root.getChildren().remove(theBullets.get(i));
