@@ -27,11 +27,20 @@ public class GUI extends Application {
     private static String filePath = System.getProperty("user.dir");
 
     // Background Music
+    int maxVolume = 100;
+    int volume = 40;
     static String Backgroundmsc = filePath + "\\SFX\\8_Bit_March.mp3";
     static Media Backgroundsnd = new Media(new File(Backgroundmsc).toURI().toString());
     static MediaPlayer playBackgroundmsc = new MediaPlayer(Backgroundsnd);
+    float log1 = (float) (Math.log(maxVolume - volume) / Math.log(maxVolume));
 
-    public static void stopBackroundMusic(){
+    public static void btnClickSound() {
+        String btnClickSound = filePath + "\\SFX\\casual-death-loose.wav";
+        MediaPlayer playbtnClickSound = new MediaPlayer(new Media(new File(btnClickSound).toURI().toString()));
+        playbtnClickSound.play();
+    }
+
+    public static void stopBackroundMusic() {
         playBackgroundmsc.stop();
     }
 
@@ -40,10 +49,11 @@ public class GUI extends Application {
 
         playBackgroundmsc.setOnEndOfMedia(new Runnable() {
             public void run() {
-              playBackgroundmsc.stop();
-              playBackgroundmsc.play();
+                playBackgroundmsc.stop();
+                playBackgroundmsc.play();
             }
         });
+        playBackgroundmsc.setVolume(1 - log1);
         playBackgroundmsc.play();
 
         Pane root = new Pane();
@@ -72,12 +82,14 @@ public class GUI extends Application {
         ImageView playButtonNode = new ImageView();
         playButtonNode.setImage(playButton);
         play_button.setGraphic(playButtonNode);
-        play_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        play_button
+                .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         play_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent exit) {
                 try {
                     Runner.startGame(stage);
+                    btnClickSound();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -88,7 +100,8 @@ public class GUI extends Application {
         ImageView exitButtonNode = new ImageView();
         exitButtonNode.setImage(exitButton);
         exit_button.setGraphic(exitButtonNode);
-        exit_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        exit_button
+                .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         exit_button.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override

@@ -25,6 +25,9 @@ public abstract class Runner extends Application {
     private static boolean movingRight, movingLeft, fireShot;
     private static int enemiesToSpawn, enemiesKilled, enemyMovementSpeed, enemyProjectileSpeed, wavesKilled, score;
     private static String filePath = System.getProperty("user.dir");
+    private static int maxVolume = 100;
+    private static int volume = 40;
+    private static float log1 = (float) (Math.log(maxVolume - volume) / Math.log(maxVolume));
 
     // R.N.G.
 
@@ -83,7 +86,7 @@ public abstract class Runner extends Application {
         ImageView theBullet = new ImageView();
         theBullet.setImage(bulletSprite);
         // Spawns Projectile @ player location
-        theBullet.setLayoutX(bullet.getX_Coordinate());
+        theBullet.setLayoutX(bullet.getX_Coordinate() + 15);
         theBullet.setLayoutY(bullet.getY_Coordinate());
         // adds projectile and sprite to scene and arraylists
         bullets.add(bullet);
@@ -91,9 +94,10 @@ public abstract class Runner extends Application {
         root.getChildren().add(theBullet);
         // SFX
         String filePath = System.getProperty("user.dir");
-        String pewSound = filePath + "\\SFX\\pew.mp3";
+        String pewSound = filePath + "\\SFX\\pew.wav";
         Media sound = new Media(new File(pewSound).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setVolume(0.91 - log1);
         mediaPlayer.play();
     }
 
@@ -145,6 +149,7 @@ public abstract class Runner extends Application {
         String loserMsc = filePath + "\\SFX\\Naruto - Sadness and Sorrow 8 Bit.Mp3";
         Media loserSnd = new Media(new File(loserMsc).toURI().toString());
         MediaPlayer playLoserMsc = new MediaPlayer(loserSnd);
+        playLoserMsc.setVolume(1 - log1);
         // Sets up Player Sprite
         FileInputStream playerPath = new FileInputStream(filePath + "\\Textures\\player.png");
         Image playerSprite = new Image(playerPath, 50, 50, false, true);
