@@ -90,7 +90,7 @@ public abstract class Runner extends Application {
         root.getChildren().add(theBullet);
         // SFX
         String filePath = System.getProperty("user.dir");
-        String pewSound = filePath + "\\SFX\\pew.mp3";
+        String pewSound = filePath + "\\SFX\\pew.wav";
         Media sound = new Media(new File(pewSound).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();
