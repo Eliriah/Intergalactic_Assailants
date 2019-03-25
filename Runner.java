@@ -12,7 +12,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import java.io.*;
 
 public abstract class Runner extends Application {
@@ -25,9 +24,6 @@ public abstract class Runner extends Application {
     private static boolean movingRight, movingLeft, fireShot;
     private static int enemiesToSpawn, enemiesKilled, enemyMovementSpeed, enemyProjectileSpeed, wavesKilled, score;
     private static String filePath = System.getProperty("user.dir");
-    private static int maxVolume = 100;
-    private static int volume = 40;
-    private static float log1 = (float) (Math.log(maxVolume - volume) / Math.log(maxVolume));
 
     // R.N.G.
 
@@ -86,7 +82,7 @@ public abstract class Runner extends Application {
         ImageView theBullet = new ImageView();
         theBullet.setImage(bulletSprite);
         // Spawns Projectile @ player location
-        theBullet.setLayoutX(bullet.getX_Coordinate() + 15);
+        theBullet.setLayoutX(bullet.getX_Coordinate());
         theBullet.setLayoutY(bullet.getY_Coordinate());
         // adds projectile and sprite to scene and arraylists
         bullets.add(bullet);
@@ -94,10 +90,9 @@ public abstract class Runner extends Application {
         root.getChildren().add(theBullet);
         // SFX
         String filePath = System.getProperty("user.dir");
-        String pewSound = filePath + "\\SFX\\pew.wav";
+        String pewSound = filePath + "\\SFX\\pew.mp3";
         Media sound = new Media(new File(pewSound).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setVolume(0.91 - log1);
         mediaPlayer.play();
     }
 
@@ -149,7 +144,6 @@ public abstract class Runner extends Application {
         String loserMsc = filePath + "\\SFX\\Naruto - Sadness and Sorrow 8 Bit.Mp3";
         Media loserSnd = new Media(new File(loserMsc).toURI().toString());
         MediaPlayer playLoserMsc = new MediaPlayer(loserSnd);
-        playLoserMsc.setVolume(1 - log1);
         // Sets up Player Sprite
         FileInputStream playerPath = new FileInputStream(filePath + "\\Textures\\player.png");
         Image playerSprite = new Image(playerPath, 50, 50, false, true);
@@ -180,7 +174,9 @@ public abstract class Runner extends Application {
         score = 0;
         String scoreString = score + "";
         Label theScore = new Label(scoreString);
-        theScore.setFont(new Font("Arial", 34));
+        FileInputStream fontStream = new FileInputStream(filePath + "\\Textures\\04B_30__.TTF");
+        Font f = Font.loadFont(fontStream, 34);
+        theScore.setFont(f);
         theScore.setTextFill(Color.rgb(255, 193, 170));
         theScore.setLayoutX(200);
         theScore.setLayoutY(955);
