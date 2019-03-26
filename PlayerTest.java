@@ -14,12 +14,11 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author T10G04
+ * @author hrithvik
  */
 public class PlayerTest {
     public static final String CLASSNAME = "Player";
     public static final String FILENAME = CLASSNAME + ".java";
-    
     
     private void testInterface() 
     {
@@ -29,22 +28,16 @@ public class PlayerTest {
 
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
-
     /**
      * Test of getX_Coordinate method, of class Player.
      */
     @Test
     public void testGetX_Coordinate() {
-        testInterface();
         System.out.println("getX_Coordinate");
-        Player instance = new Player(700, 500, 100, 200);
-        int expResult = 700;
-        assertEquals("Expected result is ",expResult, instance.getX_Coordinate());
+        Player instance = new Player(50, 30, 30, 50);
+        int expResult = 50;
+        int result = instance.getX_Coordinate();
+        assertEquals("Expected Result:",expResult, result);
     }
 
     /**
@@ -52,11 +45,35 @@ public class PlayerTest {
      */
     @Test
     public void testGetY_Coordinate() {
-        testInterface();
         System.out.println("getY_Coordinate");
-        Player instance = new Player(400, 800, 400, 300);
-        int expResult = 800;
-        assertEquals("Expected value ", expResult, instance.getY_Coordinate());
+        Player instance = new Player(50, 30, 30, 50);
+        int expResult = 30;
+        int result = instance.getY_Coordinate();
+        assertEquals("Expected Result:",expResult, result);
+    }
+
+    /**
+     * Test of getWidth method, of class Player.
+     */
+    @Test
+    public void testGetWidth() {
+        System.out.println("getWidth");
+        Player instance = new Player(50, 30, 30, 50);;
+        int expResult = 30;
+        int result = instance.getWidth();
+        assertEquals("Expected Result",expResult, result);
+    }
+
+    /**
+     * Test of getHeight method, of class Player.
+     */
+    @Test
+    public void testGetHeight() {
+        System.out.println("getHeight");
+        Player instance = new Player(50, 30, 30, 50);
+        int expResult = 50;
+        int result = instance.getHeight();
+        assertEquals("Expected Result",expResult, result);
     }
 
     /**
@@ -64,39 +81,11 @@ public class PlayerTest {
      */
     @Test
     public void testGetLive() {
-        testInterface();
         System.out.println("getLive");
-        Player instance = new Player(80, 80, 0, 0);
+        Player instance = new Player(50, 30, 30, 50);;
         boolean expResult = true;
         boolean result = instance.getLive();
-        assertEquals("Expected result true", expResult, result);
-    }
-
-
-
-    /**
-     * Test of moveRight method, of class Player.
-     */
-    @Test
-    public void testMoveRight() {
-        testInterface();
-        System.out.println("moveRight");
-        Player instance = new Player(80, 80, 0, 0);
-        int expResult = 85;
-        instance.moveRight(5);
-        assertEquals("Expected x_Coordinate", expResult, instance.getX_Coordinate());
-    }
-
-    /**
-     * Test of moveLeft method, of class Player.
-     */
-    @Test
-    public void testMoveLeft() {
-        testInterface();
-        System.out.println("moveLeft");
-        Player instance = new Player(100, 120, 0, 0);
-        instance.moveLeft(5);
-        assertEquals("Expected x_Coordinate", 95, instance.getX_Coordinate());
+        assertEquals("Expected Result:",expResult, result);
     }
 
     /**
@@ -104,12 +93,11 @@ public class PlayerTest {
      */
     @Test
     public void testSetXCoordinate() {
-        testInterface();
         System.out.println("setXCoordinate");
-        int a = 150;
-        Player instance = new Player(80, 100, a, a);
+        int a = 80;
+        Player instance = new Player(50, 30, 30, 50);;
         instance.setXCoordinate(a);
-        assertEquals("Expected x_Coordinate", 150, instance.getX_Coordinate());
+        assertEquals("Expected Result:",80, instance.getX_Coordinate());
     }
 
     /**
@@ -117,12 +105,71 @@ public class PlayerTest {
      */
     @Test
     public void testSetYCoordinate() {
-        testInterface();
         System.out.println("setYCoordinate");
-        int a = 350;
-        Player instance = new Player(100, 100, a, a);
+        int a = 60;
+        Player instance = new Player(30,40,40,60);
         instance.setYCoordinate(a);
-        assertEquals("Expected y_Coordinate", 350, instance.getY_Coordinate());
+        assertEquals("Expected Result:",60, instance.getY_Coordinate());
+    }
+
+    /**
+     * Test of setLive method, of class Player.
+     */
+    @Test
+    public void testSetLive() {
+        System.out.println("setLive");
+        boolean state = false;
+        Player instance = new Player(50, 60, 50, 60);
+        instance.setLive(state);
+        assertEquals("Expected Result:", false, instance.getLive());
+    }
+
+    /**
+     * Test of setWidth method, of class Player.
+     */
+    @Test
+    public void testSetWidth() {
+        System.out.println("setWidth");
+        int aWidth = 10;
+        Player instance = new Player(20,60,60,70);
+        instance.setWidth(aWidth);
+        assertEquals("Expected Result:",10, instance.getWidth());
+    }
+
+    /**
+     * Test of setHeight method, of class Player.
+     */
+    @Test
+    public void testSetHeight() {
+        System.out.println("setHeight");
+        int aHeight = 20;
+        Player instance = new Player(10, 40, 50, 40);
+        instance.setHeight(aHeight);
+        assertEquals("Expected Result:",20, instance.getHeight());
+    }
+
+    /**
+     * Test of moveRight method, of class Player.
+     */
+    @Test
+    public void testMoveRight() {
+        System.out.println("moveRight");
+        int distance = 10;
+        Player instance = new Player(20,20,30,40);
+        instance.moveRight(distance);
+        assertEquals("Expected Result:",30, instance.getX_Coordinate());
+    }
+
+    /**
+     * Test of moveLeft method, of class Player.
+     */
+    @Test
+    public void testMoveLeft() {
+        System.out.println("moveLeft");
+        int distance = 10;
+        Player instance = new Player(20, 30, 40, 50);
+        instance.moveLeft(distance);
+        assertEquals("Expected Result:",10, instance.getX_Coordinate());
     }
 
     /**
@@ -130,11 +177,35 @@ public class PlayerTest {
      */
     @Test
     public void testMoveDown() {
-        testInterface();
         System.out.println("moveDown");
-        Player instance = new Player(100, 300, 0, 0);
-        instance.moveDown(50);
-        assertEquals("Expected y_Coordinate", 350, instance.getY_Coordinate());
+        int distance = 10;
+        Player instance = new Player(20, 40, 50, 60);
+        instance.moveDown(distance);
+        assertEquals("Expected Result:",50, instance.getY_Coordinate());
     }
 
+    /**
+     * Test of moveUp method, of class Player.
+     */
+    @Test
+    public void testMoveUp() {
+        System.out.println("moveUp");
+        int distance = 10;
+        Player instance = new Player(20, 50, 60, 70);
+        instance.moveUp(distance);
+        assertEquals("Expected Result:",40, instance.getY_Coordinate());
+    }
+
+    /**
+     * Test of getUnitHitBox method, of class Player.
+     */
+    @Test
+    public void testGetUnitHitBox() {
+        System.out.println("getUnitHitBox");
+        Player instance = new Player(20, 30, 40, 50);
+        Rectangle expResult = new Rectangle(20, 30, 40, 50);
+        Rectangle result = instance.getUnitHitBox();
+        assertEquals("Expected Result:", expResult, result);
+    }
+    
 }
