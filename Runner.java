@@ -49,6 +49,12 @@ public abstract class Runner extends Application {
 
     // Methods for Spawning game elements
 
+    /**
+     * Spawns a number of enemies to the screen
+     * 
+     * @param numberOfEnemies
+     * @throws FileNotFoundException
+     */
     public static void spawnEnemies(int numberOfEnemies) throws FileNotFoundException {
         // Used to seperate Enemy Spawns
         int x = 0;
@@ -80,6 +86,12 @@ public abstract class Runner extends Application {
         }
     }
 
+    /**
+     * Method that allows the player to shoot projectiles
+     * 
+     * @throws FileNotFoundException
+     */
+
     public static void shootProjectile() throws FileNotFoundException {
         // Creates Projectile
         Projectile bullet = new Projectile(player.getX_Coordinate(), player.getY_Coordinate(), 20, 40, true);
@@ -104,6 +116,11 @@ public abstract class Runner extends Application {
         mediaPlayer.play();
     }
 
+    /**
+     * Method that makes the enemies shoot
+     * 
+     * @throws FileNotFoundException
+     */
     public static void shootEnemyProjectile() throws FileNotFoundException {
         // One enemy will randomly shoot
         Enemy enemyBullet = enemies.get(randomNumber.nextInt(enemies.size()));
@@ -123,6 +140,9 @@ public abstract class Runner extends Application {
         root.getChildren().add(theBullet);
     }
 
+    /**
+     * Method that spawns new enemies after the first wave has been destroyed
+     */
     public static void spawnWaves() {
         // Spawns new Waves of enemies
         if (enemiesKilled == enemiesToSpawn) {
@@ -146,6 +166,18 @@ public abstract class Runner extends Application {
     }
 
     // Main game/GUI
+    /**
+     * Method that starts the game
+     * 
+     * @param primaryStage
+     * @param aScore
+     * @param theEnemyMovementSpeed
+     * @param theEnemyProjectileSpeed
+     * @param theEnemiesToSpawn
+     * @param numWavesKilled
+     * @param numEnemiesKilled
+     * @throws FileNotFoundException
+     */
     public static void startGame(Stage primaryStage, int aScore, int theEnemyMovementSpeed, int theEnemyProjectileSpeed,
             int theEnemiesToSpawn, int numWavesKilled, int numEnemiesKilled) throws FileNotFoundException {
         // Sets up non-enemy/bullet spites and other images
@@ -190,6 +222,10 @@ public abstract class Runner extends Application {
         theScore.setTextFill(Color.rgb(255, 193, 170));
         theScore.setLayoutX(200);
         theScore.setLayoutY(955);
+        // Creates the application icon
+        FileInputStream iconPath = new FileInputStream(filePath + "\\Textures\\moon.png");
+        Image icon = new Image(iconPath, 50, 50, false, true);
+
         // Creates resume button
         FileInputStream resumePath = new FileInputStream(filePath + "\\Textures\\resume.png");
         Image resumeButton = new Image(resumePath, 269, 84, false, true);
@@ -201,6 +237,11 @@ public abstract class Runner extends Application {
                 .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         resume_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
+            /**
+             * Method that resumes the game after it has been paused
+             * 
+             * @param resume
+             */
             public void handle(ActionEvent resume) {
                 gamePause = false;
 
@@ -228,6 +269,11 @@ public abstract class Runner extends Application {
                 .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         restart_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
+            /**
+             * Method that restarts the game after the player has died
+             * 
+             * @param restart
+             */
             public void handle(ActionEvent restart) {
 
                 int bulletsSize = bullets.size();
@@ -303,6 +349,11 @@ public abstract class Runner extends Application {
                 .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         save_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
+            /**
+             * Saves the players progress and state of the game to a text file
+             * 
+             * @param save
+             */
             public void handle(ActionEvent save) {
                 if (enemiesKilled == enemiesToSpawn)
                     enemiesKilled = 0;
@@ -569,6 +620,7 @@ public abstract class Runner extends Application {
 
         primaryStage.setTitle("Intergalactic Assailants");
         primaryStage.setScene(scene);
+        primaryStage.getIcons().add(icon);
         primaryStage.show();
 
         // Animation Timers

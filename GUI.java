@@ -18,7 +18,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Main menu screen for the game 19.03.15
+ * Main menu screen for the game
  */
 
 public class GUI extends Application {
@@ -35,16 +35,25 @@ public class GUI extends Application {
     static MediaPlayer playBackgroundmsc = new MediaPlayer(Backgroundsnd);
     float log1 = (float) (Math.log(maxVolume - volume) / Math.log(maxVolume));
 
+    /**
+     * Method that plays a sound when a button is clicked on
+     */
     public static void btnClickSound() {
         String btnClickSound = filePath + "\\SFX\\casual-death-loose.wav";
         MediaPlayer playbtnClickSound = new MediaPlayer(new Media(new File(btnClickSound).toURI().toString()));
         playbtnClickSound.play();
     }
 
+    /**
+     * Method that stops background music
+     */
     public static void stopBackgroundMusic() {
         playBackgroundmsc.stop();
     }
 
+    /**
+     * Method that starts background music
+     */
     public static void startBackgroundMusic() {
         playBackgroundmsc.play();
     }
@@ -62,7 +71,9 @@ public class GUI extends Application {
         startBackgroundMusic();
 
         Pane root = new Pane();
-
+        /**
+         * Setting up images
+         */
         FileInputStream titleBg = new FileInputStream(filePath + "\\Textures\\space.png");
         Image titleScreen = new Image(titleBg, 1920, 1080, false, true);
         FileInputStream titleText = new FileInputStream(filePath + "\\Textures\\title.png");
@@ -73,6 +84,8 @@ public class GUI extends Application {
         Image exitButton = new Image(exitPath, 267, 82, false, true);
         FileInputStream scorePath = new FileInputStream(filePath + "\\Textures\\score.png");
         Image score = new Image(scorePath, 186, 44, false, true);
+        FileInputStream iconPath = new FileInputStream(filePath + "\\Textures\\moon.png");
+        Image icon = new Image(iconPath, 50, 50, false, true);
 
         ImageView scoreNode = new ImageView();
         scoreNode.setImage(score);
@@ -91,6 +104,7 @@ public class GUI extends Application {
                 .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         play_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
+            // Starts the game when the button is pressed
             public void handle(ActionEvent start) {
                 try {
                     Runner.startGame(stage, 0, 5, 9, 20, 0, 0);
@@ -110,6 +124,7 @@ public class GUI extends Application {
         exit_button.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
+            // Exits the game when button is pressed
             public void handle(ActionEvent exit) {
                 System.exit(0);
             }
@@ -126,6 +141,8 @@ public class GUI extends Application {
                 .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         load_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
+            // Reads a text file that contains score and state of when the game was saved
+            // and restarts the game from that state
             public void handle(ActionEvent save) {
                 try {
                     FileReader freader = new FileReader(filePath + "\\savegame.txt");
@@ -185,6 +202,7 @@ public class GUI extends Application {
                 }
             }
         });
+        // Layout for all images and buttons
         scoreboard_button.setLayoutX(1500);
         scoreboard_button.setLayoutY(1500);
         scoreboardButtonNode.setLayoutX(1500);
@@ -215,6 +233,7 @@ public class GUI extends Application {
         root.getChildren().addAll(imageView, titleNode, play_button, exit_button, load_button, loadButtonNode);
         Scene scene = new Scene(root, 1300, 730);
         stage.setTitle("Intergalactic Assailants");
+        stage.getIcons().add(icon);
         stage.setScene(scene);
         stage.show();
     }

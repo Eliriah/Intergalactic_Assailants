@@ -7,6 +7,9 @@ import java.util.ArrayList;
  */
 
 public class AnimationApp {
+
+	static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+
 	/**
 	 * Method that controls how the enemy moves. The enemy is set to move in a
 	 * specific pattern. The enemy will move to the right until it hits an x
@@ -16,8 +19,6 @@ public class AnimationApp {
 	 * 
 	 * @param enemy
 	 */
-	static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-
 	public static void enemyMovement(Enemy enemy) {
 
 		if (enemy.getEnemyMovementRight() == true) {
@@ -84,8 +85,8 @@ public class AnimationApp {
 		System.out.println("Player Position: " + player1.getX_Coordinate() + ", " + player1.getY_Coordinate());
 
 		for (int i = 0; i < enemies.size(); i++)
-			System.out.println(
-					"Enemy " + i + " position : " + enemies.get(i).getX_Coordinate() + ", " + enemies.get(i).getY_Coordinate());
+			System.out.println("Enemy " + i + " position : " + enemies.get(i).getX_Coordinate() + ", "
+					+ enemies.get(i).getY_Coordinate());
 
 		while (player1.getLive() == true) {
 
@@ -97,13 +98,15 @@ public class AnimationApp {
 				if (player1.getX_Coordinate() == (-50)) {
 					// sets a limit to how far the player can move left
 					System.out.println("Sorry, you can't move any farther left.");
-					System.out.println("Player Position: " + player1.getX_Coordinate() + ", " + player1.getY_Coordinate());
+					System.out.println(
+							"Player Position: " + player1.getX_Coordinate() + ", " + player1.getY_Coordinate());
 				}
 
 				else {
 
 					player1.moveLeft(5);
-					System.out.println("Player Position: " + player1.getX_Coordinate() + ", " + player1.getY_Coordinate());
+					System.out.println(
+							"Player Position: " + player1.getX_Coordinate() + ", " + player1.getY_Coordinate());
 
 				}
 
@@ -113,12 +116,14 @@ public class AnimationApp {
 				if (player1.getX_Coordinate() == 50) {
 					// sets a limit to how far the player can move right.
 					System.out.println("Sorry, you can't move any farther right.");
-					System.out.println("Player Position: " + player1.getX_Coordinate() + ", " + player1.getY_Coordinate());
+					System.out.println(
+							"Player Position: " + player1.getX_Coordinate() + ", " + player1.getY_Coordinate());
 				}
 
 				else {
 					player1.moveRight(5);
-					System.out.println("Player Position: " + player1.getX_Coordinate() + ", " + player1.getY_Coordinate());
+					System.out.println(
+							"Player Position: " + player1.getX_Coordinate() + ", " + player1.getY_Coordinate());
 				}
 
 			}
