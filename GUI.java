@@ -14,11 +14,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
+import java.awt.Font;
+import java.awt.Label;
 import java.io.*;
 import java.util.*;
 
 /**
- * Main menu screen for the game
+ * Main menu screen for the game 19.03.15
  */
 
 public class GUI extends Application {
@@ -35,27 +38,48 @@ public class GUI extends Application {
     static MediaPlayer playBackgroundmsc = new MediaPlayer(Backgroundsnd);
     float log1 = (float) (Math.log(maxVolume - volume) / Math.log(maxVolume));
 
-    /**
-     * Method that plays a sound when a button is clicked on
-     */
     public static void btnClickSound() {
         String btnClickSound = filePath + "\\SFX\\casual-death-loose.wav";
         MediaPlayer playbtnClickSound = new MediaPlayer(new Media(new File(btnClickSound).toURI().toString()));
         playbtnClickSound.play();
     }
 
-    /**
-     * Method that stops background music
-     */
     public static void stopBackgroundMusic() {
         playBackgroundmsc.stop();
     }
 
-    /**
-     * Method that starts background music
-     */
     public static void startBackgroundMusic() {
         playBackgroundmsc.play();
+    }
+
+    // Reads the scoreboard
+    public static ArrayList<Integer> readscoreboard() {
+        ArrayList<Integer> scoreArray = new ArrayList<Integer>();
+        try {
+            FileReader freader = new FileReader(filePath + "\\scoreboard.txt");
+            BufferedReader breader = new BufferedReader(freader);
+            while (breader.readLine() != null) {
+                int line = Integer.parseInt(breader.readLine());
+                scoreArray.add(line);
+            }
+            breader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return scoreArray;
+    }
+
+    public void createTop5Scores(ArrayList<Integer> scoreArray) {
+        for (int i = 0; i < 5; i++) {
+            FileInputStream fontStream = new FileInputStream(filePath + "\\Textures\\04B_30__.TTF");
+            Font f = Font.loadFont(fontStream, 34);
+            String scoreString = Integer.toString(scoreArray.get(0));
+            Label score = new Label(scoreString);
+            score.setFont(f);
+            score.setTextFill(Color.rgb(255, 193, 170));
+            score.setLayoutX(900);
+            score.setLayoutX(50 + i * 50);
+        }
     }
 
     @Override
@@ -71,9 +95,7 @@ public class GUI extends Application {
         startBackgroundMusic();
 
         Pane root = new Pane();
-        /**
-         * Setting up images
-         */
+
         FileInputStream titleBg = new FileInputStream(filePath + "\\Textures\\space.png");
         Image titleScreen = new Image(titleBg, 1920, 1080, false, true);
         FileInputStream titleText = new FileInputStream(filePath + "\\Textures\\title.png");
@@ -81,9 +103,12 @@ public class GUI extends Application {
         FileInputStream playPath = new FileInputStream(filePath + "\\Textures\\start.png");
         Image playButton = new Image(playPath, 269, 84, false, true);
         FileInputStream exitPath = new FileInputStream(filePath + "\\Textures\\exit.png");
-        Image exitButton = new Image(exitPath, 267, 84, false, true);
-        FileInputStream iconPath = new FileInputStream(filePath + "\\Textures\\moon.png");
-        Image icon = new Image(iconPath, 50, 50, false, true);
+        Image exitButton = new Image(exitPath, 267, 82, false, true);
+        FileInputStream scorePath = new FileInputStream(filePath + "\\Textures\\score.png");
+        Image score = new Image(scorePath, 186, 44, false, true);
+
+        ImageView scoreNode = new ImageView();
+        scoreNode.setImage(score);
 
         ImageView imageView = new ImageView();
         imageView.setImage(titleScreen);
@@ -99,7 +124,6 @@ public class GUI extends Application {
                 .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         play_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            // Starts the game when the button is pressed
             public void handle(ActionEvent start) {
                 try {
                     Runner.startGame(stage, 0, 5, 9, 20, 0, 0);
@@ -119,15 +143,57 @@ public class GUI extends Application {
         exit_button.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
-            // Exits the game when button is pressed
             public void handle(ActionEvent exit) {
                 System.exit(0);
             }
         });
 
+        FileInputStream fontStream = new FileInputStream(filePath + "\\Textures\\04B_30__.TTF");
+        Font f = Font.loadFont(fontStream, 34);
+        // Sets up scoreboard
+        Image scoreboard = new Image(scorePath, 186, 44, false, true);
+        ImageView scoreboardText = new ImageView();
+        scoreboardText.setImage(scoreboard);
+        scoreboardText.setLayoutX(900);
+        scoreboardText.setLayoutY(0);
+        // Sets up scoreboard label
+        ArrayList<Integer> scoreArray = readscoreboard();
+        if (scoreArray.size() >= 5) {
+            String scoreString1 = Integer.toString(scoreArray.get(0));
+            String scoreString2 = Integer.toString(scoreArray.get(1));
+            String scoreString3 = Integer.toString(scoreArray.get(2));
+            String scoreString4 = Integer.toString(scoreArray.get(3));
+            String scoreString5 = Integer.toString(scoreArray.get(4));
+        }
+        Label score1 = new Label(scoreString1);
+        Label score2 = new Label(scoreString2);
+        Label score3 = new Label(scoreString3);
+        Label score4 = new Label(scoreString4);
+        Label score5 = new Label(scoreString5);
+        score1.setFont(f);
+        score1.setTextFill(Color.rgb(255, 193, 170));
+        score1.setLayoutX(900);
+        score1.setLayoutY(50);
+        score2.setFont(f);
+        score2.setTextFill(Color.rgb(255, 193, 170));
+        score2.setLayoutX(900);
+        score2.setLayoutY(100);
+        score3.setFont(f);
+        score3.setTextFill(Color.rgb(255, 193, 170));
+        score3.setLayoutX(900);
+        score3.setLayoutY(150);
+        score4.setFont(f);
+        score4.setTextFill(Color.rgb(255, 193, 170));
+        score4.setLayoutX(900);
+        score4.setLayoutY(200);
+        score5.setFont(f);
+        score5.setTextFill(Color.rgb(255, 193, 170));
+        score5.setLayoutX(900);
+        score5.setLayoutY(250);
+
         // Create load button
         FileInputStream loadPath = new FileInputStream(filePath + "\\Textures\\load.png");
-        Image loadButton = new Image(loadPath, 269, 84, false, true);
+        Image loadButton = new Image(loadPath, 300, 90, false, true);
         Button load_button = new Button();
         ImageView loadButtonNode = new ImageView();
         loadButtonNode.setImage(loadButton);
@@ -136,8 +202,6 @@ public class GUI extends Application {
                 .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         load_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            // Reads a text file that contains score and state of when the game was saved
-            // and restarts the game from that state
             public void handle(ActionEvent save) {
                 try {
                     FileReader freader = new FileReader(filePath + "\\savegame.txt");
@@ -170,39 +234,6 @@ public class GUI extends Application {
         loadButtonNode.setLayoutX(500);
         loadButtonNode.setLayoutY(600);
 
-        // Creates scoreboard button
-        FileInputStream scoreboardPath = new FileInputStream(filePath + "\\Textures\\save.png");
-        Image scoreboardButton = new Image(scoreboardPath, 300, 90, false, true);
-        Button scoreboard_button = new Button();
-        ImageView scoreboardButtonNode = new ImageView();
-        scoreboardButtonNode.setImage(scoreboardButton);
-        scoreboard_button.setGraphic(scoreboardButtonNode);
-        scoreboard_button
-                .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
-        scoreboard_button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent showscoreboard) {
-                try {
-                    FileReader freader = new FileReader(filePath + "\\scoreboard.txt");
-                    BufferedReader breader = new BufferedReader(freader);
-                    ArrayList<Integer> scoreArray = new ArrayList<Integer>();
-                    while (breader.readLine() != null) {
-                        int line = Integer.parseInt(breader.readLine());
-                        scoreArray.add(line);
-                    }
-                    breader.close();
-                    btnClickSound();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        // Layout for all images and buttons
-        scoreboard_button.setLayoutX(1500);
-        scoreboard_button.setLayoutY(1500);
-        scoreboardButtonNode.setLayoutX(1500);
-        scoreboardButtonNode.setLayoutY(1500);
-
         imageView.setLayoutX(0);
         imageView.setLayoutY(0);
         imageView.setFitHeight(1080);
@@ -222,10 +253,12 @@ public class GUI extends Application {
         exitButtonNode.setLayoutX(500);
         exitButtonNode.setLayoutY(500);
 
+        scoreNode.setLayoutX(950);
+        scoreNode.setLayoutY(620);
+
         root.getChildren().addAll(imageView, titleNode, play_button, exit_button, load_button, loadButtonNode);
         Scene scene = new Scene(root, 1300, 730);
         stage.setTitle("Intergalactic Assailants");
-        stage.getIcons().add(icon);
         stage.setScene(scene);
         stage.show();
     }
