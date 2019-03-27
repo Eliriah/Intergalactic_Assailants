@@ -14,9 +14,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.util.*;
 
 /**
  * Main menu screen for the game 19.03.15
@@ -25,6 +24,7 @@ import java.io.FileNotFoundException;
 public class GUI extends Application {
 
     private static String filePath = System.getProperty("user.dir");
+    private static int aEnemiesToSpawn, aEnemiesKilled, aEnemyMovementSpeed, aEnemyProjectileSpeed, aWavesKilled, aScore;
 
     // Background Music
     int maxVolume = 100;
@@ -82,13 +82,12 @@ public class GUI extends Application {
         ImageView playButtonNode = new ImageView();
         playButtonNode.setImage(playButton);
         play_button.setGraphic(playButtonNode);
-        play_button
-                .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        play_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         play_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent exit) {
+            public void handle(ActionEvent start) {
                 try {
-                    Runner.startGame(stage);
+                    Runner.startGame(stage, 0, 5, 9, 20, 0, 0);
                     btnClickSound();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -100,8 +99,7 @@ public class GUI extends Application {
         ImageView exitButtonNode = new ImageView();
         exitButtonNode.setImage(exitButton);
         exit_button.setGraphic(exitButtonNode);
-        exit_button
-                .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        exit_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         exit_button.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -110,6 +108,48 @@ public class GUI extends Application {
             }
         });
 
+        // Create load button
+        FileInputStream loadPath = new FileInputStream(filePath + "\\Textures\\load.png");
+        Image loadButton = new Image(loadPath, 300, 90, false, true);   
+        Button load_button = new Button();
+        ImageView loadButtonNode = new ImageView();
+        loadButtonNode.setImage(loadButton);
+        load_button.setGraphic(loadButtonNode);
+        load_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        load_button.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent save) {
+                try {
+                    
+                    FileReader freader = new FileReader(filePath + "\\savegame.txt");
+                    BufferedReader breader = new BufferedReader(freader);
+                    for (int i = 1; i<7; i++) {
+                        if (i == 1)
+                            aScore = Integer.parseInt(breader.readLine());
+                        if (i == 2)
+                            aEnemyMovementSpeed = Integer.parseInt(breader.readLine());
+                        if (i == 3)
+                            aEnemyProjectileSpeed = Integer.parseInt(breader.readLine());
+                        if (i == 4)
+                            aEnemiesToSpawn = Integer.parseInt(breader.readLine());
+                        if (i == 5)
+                            aWavesKilled = Integer.parseInt(breader.readLine());
+                        if (i == 6)
+                            aEnemiesKilled = Integer.parseInt(breader.readLine());
+                    }
+                    Runner.startGame(stage, aScore, aEnemyMovementSpeed, aEnemyProjectileSpeed, ((20 + (2 * aWavesKilled)) - aEnemiesKilled), aWavesKilled, aEnemiesKilled);
+                    btnClickSound();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                } 
+            }
+        });
+        load_button.setLayoutX(500);
+        load_button.setLayoutY(600);
+        loadButtonNode.setLayoutX(500);
+        loadButtonNode.setLayoutY(600);
+ 
         imageView.setLayoutX(0);
         imageView.setLayoutY(0);
         imageView.setFitHeight(1080);
@@ -132,7 +172,7 @@ public class GUI extends Application {
         scoreNode.setLayoutX(950);
         scoreNode.setLayoutY(620);
 
-        root.getChildren().addAll(imageView, titleNode, play_button, exit_button);
+        root.getChildren().addAll(imageView, titleNode, play_button, exit_button, load_button, loadButtonNode);
         Scene scene = new Scene(root, 1300, 730);
         stage.setTitle("Intergalactic Assailants");
         stage.setScene(scene);

@@ -1,12 +1,14 @@
 import java.util.*;
+import javafx.geometry.Insets;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
+import javafx.event.*;
 import javafx.scene.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.*;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -20,8 +22,10 @@ public abstract class Runner extends Application {
 
     private static Pane root = new Pane();
     private static Scene scene = new Scene(root, 1000, 1000);
-    private static Player player = new Player(500, 800, 40, 40);
-    private static boolean movingRight, movingLeft, fireShot;
+    private static Player player = new Player(500, 800, 30, 30);
+    private static boolean movingRight, movingLeft, fireShot, createEscapeButton;
+    private static boolean gamePause = false;
+    private static boolean gameRestart = false;
     private static int enemiesToSpawn, enemiesKilled, enemyMovementSpeed, enemyProjectileSpeed, wavesKilled, score;
     private static String filePath = System.getProperty("user.dir");
     private static int maxVolume = 100;
@@ -142,7 +146,7 @@ public abstract class Runner extends Application {
     }
 
     // Main game/GUI
-    public static void startGame(Stage primaryStage) throws FileNotFoundException {
+    public static void startGame(Stage primaryStage, int aScore, int theEnemyMovementSpeed, int theEnemyProjectileSpeed, int theEnemiesToSpawn, int numWavesKilled, int numEnemiesKilled) throws FileNotFoundException {
         // Sets up non-enemy/bullet spites and other images
 
         String loserMsc = filePath + "\\SFX\\Naruto - Sadness and Sorrow 8 Bit.Mp3";
@@ -176,7 +180,7 @@ public abstract class Runner extends Application {
         scoreText.setLayoutX(0);
         scoreText.setLayoutY(950);
         // sets up Score label
-        score = 0;
+        score = aScore;
         String scoreString = score + "";
         Label theScore = new Label(scoreString);
         FileInputStream fontStream = new FileInputStream(filePath + "\\Textures\\04B_30__.TTF");
@@ -185,16 +189,152 @@ public abstract class Runner extends Application {
         theScore.setTextFill(Color.rgb(255, 193, 170));
         theScore.setLayoutX(200);
         theScore.setLayoutY(955);
+        // Creates resume button
+        FileInputStream resumePath = new FileInputStream(filePath + "\\Textures\\resume.png");
+        Image resumeButton = new Image(resumePath, 269, 84, false, true);
+        Button resume_button = new Button();
+        ImageView resumeButtonNode = new ImageView();
+        resumeButtonNode.setImage(resumeButton);
+        resume_button.setGraphic(resumeButtonNode);
+        resume_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        resume_button.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent resume){
+                gamePause = false;
+
+                resume_button.setLayoutX(1500);
+                resume_button.setLayoutY(1500);
+                resumeButtonNode.setLayoutX(1500);
+                resumeButtonNode.setLayoutY(1500);
+                
+            }
+
+            
+        });
+        resume_button.setLayoutX(1500);
+        resume_button.setLayoutY(1500);
+        resumeButtonNode.setLayoutX(1500);
+        resumeButtonNode.setLayoutY(1500);
+        // Creates restart button
+        FileInputStream restartPath = new FileInputStream(filePath + "\\Textures\\play again.png");
+        Image restartButton = new Image(restartPath, 269, 84, false, true);
+        Button restart_button = new Button();
+        ImageView restartButtonNode = new ImageView();
+        restartButtonNode.setImage(restartButton);
+        restart_button.setGraphic(restartButtonNode);
+        restart_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        restart_button.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent restart){
+
+                int bulletsSize = bullets.size();
+                int theBulletsSize = theBullets.size();
+                int enemiesSize = enemies.size();
+                int theEnemiesSize = theEnemies.size();
+                int enemyBulletsSize = enemyBullets.size();
+                int theEnemyBulletsSize = theEnemyBullets.size();
+
+                for (int i = 0; i < bulletsSize; i++){
+                    root.getChildren().remove(bullets.get(0));
+                    bullets.remove(bullets.get(0));
+                }
+                for (int i = 0; i < theBulletsSize; i++){
+                    root.getChildren().remove(theBullets.get(0));
+                    theBullets.remove(theBullets.get(0));
+                }
+                for (int i = 0; i < enemiesSize; i++){
+                    root.getChildren().remove(enemies.get(0));
+                    enemies.remove(enemies.get(0));
+                }
+                for (int i = 0; i < theEnemiesSize; i++){
+                    root.getChildren().remove(theEnemies.get(0));
+                    theEnemies.remove(theEnemies.get(0));
+                }
+                for (int i = 0; i < enemyBulletsSize; i++){
+                    root.getChildren().remove(enemyBullets.get(0));
+                    enemyBullets.remove(enemyBullets.get(0));
+                }
+                for (int i = 0; i < theEnemyBulletsSize; i++){
+                    root.getChildren().remove(theEnemyBullets.get(0));
+                    theEnemyBullets.remove(theEnemyBullets.get(0));
+                }
+
+                enemyMovementSpeed = 5;
+                enemyProjectileSpeed = 9;
+                enemiesToSpawn = 20;
+                wavesKilled = 0;
+                enemiesKilled = 0;
+
+                try {
+                    spawnEnemies(enemiesToSpawn);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                if (player.getLive() == false)
+                    gameRestart = true;
+                player.setLive(true);
+
+                restart_button.setLayoutX(1500);
+                restart_button.setLayoutY(1500);
+                restartButtonNode.setLayoutX(1500);
+                restartButtonNode.setLayoutY(1500);
+            }
+        });
+        restart_button.setLayoutX(1500);
+        restart_button.setLayoutY(1500);
+        restartButtonNode.setLayoutX(1500);
+        restartButtonNode.setLayoutY(1500);
+
+        // Creates save button
+        FileInputStream savePath = new FileInputStream(filePath + "\\Textures\\save.png");
+        Image saveButton = new Image(savePath, 300, 90, false, true);
+        Button save_button = new Button();
+        ImageView saveButtonNode = new ImageView();
+        saveButtonNode.setImage(saveButton);
+        save_button.setGraphic(saveButtonNode);
+        save_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        save_button.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent save) {
+                if (enemiesKilled == enemiesToSpawn)
+                    enemiesKilled = 0;
+                try {
+                    FileWriter fwriter = new FileWriter(filePath + "\\savegame.txt", false);
+                    BufferedWriter bwriter = new BufferedWriter(fwriter);
+                    bwriter.write(Integer.toString(score));
+                    bwriter.newLine();
+                    bwriter.write(Integer.toString(enemyMovementSpeed));
+                    bwriter.newLine();
+                    bwriter.write(Integer.toString(enemyProjectileSpeed));
+                    bwriter.newLine();
+                    bwriter.write(Integer.toString(enemiesToSpawn));
+                    bwriter.newLine();
+                    bwriter.write(Integer.toString(wavesKilled));
+                    bwriter.newLine();
+                    bwriter.write(Integer.toString(enemiesKilled));
+                    bwriter.close();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                } 
+            }
+        });
+        save_button.setLayoutX(1500);
+        save_button.setLayoutY(1500);
+        saveButtonNode.setLayoutX(1500);
+        saveButtonNode.setLayoutY(1500);
+
 
         // Sets up main controls
         // Player holds a and d to move left and right respectivly
         // Player taps then releases space to shoot
         // Uses R.N.G to determine if enemies shoot
 
-        enemyMovementSpeed = 5;
-        enemyProjectileSpeed = 9;
-        enemiesToSpawn = 20;
-        enemiesKilled = 0;
+        enemyMovementSpeed = theEnemyMovementSpeed;
+        enemyProjectileSpeed = theEnemyProjectileSpeed;
+        enemiesToSpawn = 20 + (numWavesKilled * 2);
+        wavesKilled = numWavesKilled;
+        enemiesKilled = numEnemiesKilled;
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -205,36 +345,88 @@ public abstract class Runner extends Application {
                     movingRight = true;
                     spawnWaves();
                     int random1 = randomNumber.nextInt(2);
-                    if (random1 == 0 && player.getLive() == true)
+                    if (random1 == 0 && player.getLive() && gamePause == false)
                         try {
                             shootEnemyProjectile();
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
+                    if (gameRestart){
+                        root.getChildren().add(thePlayer);
+                        gameRestart = false;
+                    }
+                    if (gamePause == false && player.getLive()){
+
+                        save_button.setLayoutX(1500);
+                        save_button.setLayoutY(1500);
+                        saveButtonNode.setLayoutX(1500);
+                        saveButtonNode.setLayoutY(1500);
+
+                        restart_button.setLayoutX(1500);
+                        restart_button.setLayoutY(1500);
+                        restartButtonNode.setLayoutX(1500);
+                        restartButtonNode.setLayoutY(1500);
+                    }
                     break;
 
                 case A:
                     movingLeft = true;
                     spawnWaves();
                     int random2 = randomNumber.nextInt(2);
-                    if (random2 == 0 && player.getLive() == true)
+                    if (random2 == 0 && player.getLive() && gamePause == false)
                         try {
                             shootEnemyProjectile();
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
+                    if (gameRestart){
+                        root.getChildren().add(thePlayer);
+                        gameRestart = false;
+                    }
+                    if (gamePause == false && player.getLive()){
+
+                        save_button.setLayoutX(1500);
+                        save_button.setLayoutY(1500);
+                        saveButtonNode.setLayoutX(1500);
+                        saveButtonNode.setLayoutY(1500);
+
+                        restart_button.setLayoutX(1500);
+                        restart_button.setLayoutY(1500);
+                        restartButtonNode.setLayoutX(1500);
+                        restartButtonNode.setLayoutY(1500);
+                    }
                     break;
 
-                case SPACE:
+                case B:
                     spawnWaves();
                     fireShot = true;
-                    if (player.getLive() == true)
+                    if (player.getLive() == true && gamePause == false)
                         try {
                             shootEnemyProjectile();
                             shootEnemyProjectile();
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
+                    if (gameRestart){
+                        root.getChildren().add(thePlayer);
+                        gameRestart = false;
+                    }
+                    if (gamePause == false && player.getLive()){
+
+                        save_button.setLayoutX(1500);
+                        save_button.setLayoutY(1500);
+                        saveButtonNode.setLayoutX(1500);
+                        saveButtonNode.setLayoutY(1500);
+
+                        restart_button.setLayoutX(1500);
+                        restart_button.setLayoutY(1500);
+                        restartButtonNode.setLayoutX(1500);
+                        restartButtonNode.setLayoutY(1500);
+                    }
+                    break;
+
+                case ESCAPE:
+                    createEscapeButton = true;
                     break;
                 }
 
@@ -249,35 +441,102 @@ public abstract class Runner extends Application {
                     movingRight = false;
                     spawnWaves();
                     int random1 = randomNumber.nextInt(2);
-                    if (random1 == 0 && player.getLive() == true)
+                    if (random1 == 0 && player.getLive() && gamePause == false)
                         try {
                             shootEnemyProjectile();
                         } catch (FileNotFoundException e1) {
                             e1.printStackTrace();
                         }
+                    if (gameRestart){
+                        root.getChildren().add(thePlayer);
+                        gameRestart = false;
+                    }
+                    if (gamePause == false && player.getLive()){
+
+                        save_button.setLayoutX(1500);
+                        save_button.setLayoutY(1500);
+                        saveButtonNode.setLayoutX(1500);
+                        saveButtonNode.setLayoutY(1500);
+
+                        restart_button.setLayoutX(1500);
+                        restart_button.setLayoutY(1500);
+                        restartButtonNode.setLayoutX(1500);
+                        restartButtonNode.setLayoutY(1500);
+                    }
                     break;
 
                 case A:
                     movingLeft = false;
                     spawnWaves();
                     int random2 = randomNumber.nextInt(2);
-                    if (random2 == 0 && player.getLive() == true)
+                    if (random2 == 0 && player.getLive() && gamePause == false)
                         try {
                             shootEnemyProjectile();
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
+                    if (gameRestart){
+                        root.getChildren().add(thePlayer);
+                        gameRestart = false;
+                    }
+                    if (gamePause == false && player.getLive()){
+
+                        save_button.setLayoutX(1500);
+                        save_button.setLayoutY(1500);
+                        saveButtonNode.setLayoutX(1500);
+                        saveButtonNode.setLayoutY(1500);
+
+                        restart_button.setLayoutX(1500);
+                        restart_button.setLayoutY(1500);
+                        restartButtonNode.setLayoutX(1500);
+                        restartButtonNode.setLayoutY(1500);
+                    }
                     break;
 
-                case SPACE:
+                case B:
                     spawnWaves();
-                    if (fireShot && player.getLive())
+                    if (fireShot && player.getLive() && gamePause == false)
                         try {
                             shootProjectile();
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
                     fireShot = false;
+                    if (gamePause == false && player.getLive()){
+
+                        save_button.setLayoutX(1500);
+                        save_button.setLayoutY(1500);
+                        saveButtonNode.setLayoutX(1500);
+                        saveButtonNode.setLayoutY(1500);
+
+                        restart_button.setLayoutX(1500);
+                        restart_button.setLayoutY(1500);
+                        restartButtonNode.setLayoutX(1500);
+                        restartButtonNode.setLayoutY(1500);
+                    }
+                    break;
+
+                case ESCAPE:
+                    if (createEscapeButton == true){
+                        gamePause = true;
+
+                        resume_button.setLayoutX(500 - (269/2));
+                        resume_button.setLayoutY(500 - (269/2));
+                        resumeButtonNode.setLayoutX(500 - (269/2));
+                        resumeButtonNode.setLayoutY(500 - (269/2));
+
+                        restart_button.setLayoutX(500 - (269/2));
+                        restart_button.setLayoutY(600 - (269/2));
+                        restartButtonNode.setLayoutX(500 - (269/2));
+                        restartButtonNode.setLayoutY(600 - (269/2));
+
+                        save_button.setLayoutX(500 - (269/2));
+                        save_button.setLayoutY(700 - (269/2));
+                        saveButtonNode.setLayoutX(500 - (269/2));
+                        saveButtonNode.setLayoutY(700 - (269/2));
+
+                        createEscapeButton = false;
+                    }
                     break;
                 }
             }
@@ -285,11 +544,17 @@ public abstract class Runner extends Application {
         // Sets up Stage and spawns in enemies
 
         root.getChildren().add(theBG);
-        spawnEnemies(enemiesToSpawn);
+        spawnEnemies(theEnemiesToSpawn);
+        root.getChildren().add(resume_button);
+        root.getChildren().add(resumeButtonNode);
+        root.getChildren().add(restart_button);
+        root.getChildren().add(restartButtonNode);
         root.getChildren().add(gameOver);
         root.getChildren().add(scoreText);
         root.getChildren().add(thePlayer);
         root.getChildren().add(theScore);
+        root.getChildren().add(save_button);
+        root.getChildren().add(saveButtonNode);
 
         primaryStage.setTitle("Intergalactic Assailants");
         primaryStage.setScene(scene);
@@ -304,7 +569,7 @@ public abstract class Runner extends Application {
             public void handle(long now) {
 
                 if (movingLeft) {
-                    if (player.getLive() == true) {
+                    if (player.getLive() && gamePause == false) {
                         if (player.getX_Coordinate() > 5) {
                             player.moveLeft(5);
                             thePlayer.setLayoutX(player.getX_Coordinate());
@@ -313,7 +578,7 @@ public abstract class Runner extends Application {
                 }
 
                 if (movingRight) {
-                    if (player.getLive() == true) {
+                    if (player.getLive() && gamePause == false) {
                         if (player.getX_Coordinate() < 950) {
                             player.moveRight(5);
                             thePlayer.setLayoutX(player.getX_Coordinate());
@@ -328,15 +593,28 @@ public abstract class Runner extends Application {
             @Override
             public void handle(long now) {
 
+                if (gameRestart){
+
+                    gameOver.setLayoutX(1500);
+                    gameOver.setLayoutY(1500);
+
+                }
+
                 if (player.getLive()) {
                     for (int i = 0; i < enemies.size(); i++) {
 
-                        if (enemies.get(i).getLive() && player.getLive()) {
+                        if (enemies.get(i).getLive() && player.getLive() && gamePause == false) {
                             enemies.get(i).enemyMovement(enemyMovementSpeed);
                             theEnemies.get(i).setLayoutX(enemies.get(i).getX_Coordinate());
                             theEnemies.get(i).setLayoutY(enemies.get(i).getY_Coordinate());
-                            if (enemies.get(i).getUnitHitBox().intersects(player.getUnitHitBox()))
+                            if (enemies.get(i).getUnitHitBox().intersects(player.getUnitHitBox())){
                                 player.setLive(false);
+
+                                restart_button.setLayoutX(500 - (269/2));
+                                restart_button.setLayoutY(750 - (269/2));
+                                restartButtonNode.setLayoutX(500 - (269/2));
+                                restartButtonNode.setLayoutY(750 - (269/2));
+                            }
                         }
                         // Relocates enemies after death to avoid collosion with invisible, dead enemies
                         // Removes enemies from list to increase fire rate of remaining enemies
@@ -377,8 +655,7 @@ public abstract class Runner extends Application {
                     }
                     // Collision for enemies
                     for (int e = 0; e < enemies.size(); e++) {
-                        if (bullets.get(i).getUnitHitBox().intersects(enemies.get(e).getUnitHitBox())
-                                && bullets.get(i).getLive() == true) {
+                        if (bullets.get(i).getUnitHitBox().intersects(enemies.get(e).getUnitHitBox()) && bullets.get(i).getLive() == true && gamePause == false) {
                             enemies.get(e).setLive(false);
                             bullets.get(i).setLive(false);
                             root.getChildren().remove(theBullets.get(i));
@@ -399,13 +676,18 @@ public abstract class Runner extends Application {
                         theEnemyBullets.get(i).setLayoutY(enemyBullets.get(i).getY_Coordinate());
                     }
 
-                    if (enemyBullets.get(i).getUnitHitBox().intersects(player.getUnitHitBox())) {
+                    if (enemyBullets.get(i).getUnitHitBox().intersects(player.getUnitHitBox()) && gamePause == false) {
                         player.setLive(false);
                         root.getChildren().remove(thePlayer);
                         gameOver.setLayoutX(500 - (375 / 2));
                         gameOver.setLayoutY(500 - (190 / 2));
                         GUI.stopBackroundMusic();
                         playLoserMsc.play();
+
+                        restart_button.setLayoutX(500 - (269/2));
+                        restart_button.setLayoutY(750 - (269/2));
+                        restartButtonNode.setLayoutX(500 - (269/2));
+                        restartButtonNode.setLayoutY(750 - (269/2));
                     }
                 }
             }
