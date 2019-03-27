@@ -146,7 +146,8 @@ public abstract class Runner extends Application {
     }
 
     // Main game/GUI
-    public static void startGame(Stage primaryStage, int aScore, int theEnemyMovementSpeed, int theEnemyProjectileSpeed, int theEnemiesToSpawn, int numWavesKilled, int numEnemiesKilled) throws FileNotFoundException {
+    public static void startGame(Stage primaryStage, int aScore, int theEnemyMovementSpeed, int theEnemyProjectileSpeed,
+            int theEnemiesToSpawn, int numWavesKilled, int numEnemiesKilled) throws FileNotFoundException {
         // Sets up non-enemy/bullet spites and other images
 
         String loserMsc = filePath + "\\SFX\\Naruto - Sadness and Sorrow 8 Bit.Mp3";
@@ -196,20 +197,21 @@ public abstract class Runner extends Application {
         ImageView resumeButtonNode = new ImageView();
         resumeButtonNode.setImage(resumeButton);
         resume_button.setGraphic(resumeButtonNode);
-        resume_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
-        resume_button.setOnAction(new EventHandler<ActionEvent>(){
+        resume_button
+                .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        resume_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent resume){
+            public void handle(ActionEvent resume) {
                 gamePause = false;
 
                 resume_button.setLayoutX(1500);
                 resume_button.setLayoutY(1500);
                 resumeButtonNode.setLayoutX(1500);
                 resumeButtonNode.setLayoutY(1500);
-                
+
+                GUI.btnClickSound();
             }
 
-            
         });
         resume_button.setLayoutX(1500);
         resume_button.setLayoutY(1500);
@@ -222,10 +224,11 @@ public abstract class Runner extends Application {
         ImageView restartButtonNode = new ImageView();
         restartButtonNode.setImage(restartButton);
         restart_button.setGraphic(restartButtonNode);
-        restart_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
-        restart_button.setOnAction(new EventHandler<ActionEvent>(){
+        restart_button
+                .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        restart_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent restart){
+            public void handle(ActionEvent restart) {
 
                 int bulletsSize = bullets.size();
                 int theBulletsSize = theBullets.size();
@@ -234,27 +237,27 @@ public abstract class Runner extends Application {
                 int enemyBulletsSize = enemyBullets.size();
                 int theEnemyBulletsSize = theEnemyBullets.size();
 
-                for (int i = 0; i < bulletsSize; i++){
+                for (int i = 0; i < bulletsSize; i++) {
                     root.getChildren().remove(bullets.get(0));
                     bullets.remove(bullets.get(0));
                 }
-                for (int i = 0; i < theBulletsSize; i++){
+                for (int i = 0; i < theBulletsSize; i++) {
                     root.getChildren().remove(theBullets.get(0));
                     theBullets.remove(theBullets.get(0));
                 }
-                for (int i = 0; i < enemiesSize; i++){
+                for (int i = 0; i < enemiesSize; i++) {
                     root.getChildren().remove(enemies.get(0));
                     enemies.remove(enemies.get(0));
                 }
-                for (int i = 0; i < theEnemiesSize; i++){
+                for (int i = 0; i < theEnemiesSize; i++) {
                     root.getChildren().remove(theEnemies.get(0));
                     theEnemies.remove(theEnemies.get(0));
                 }
-                for (int i = 0; i < enemyBulletsSize; i++){
+                for (int i = 0; i < enemyBulletsSize; i++) {
                     root.getChildren().remove(enemyBullets.get(0));
                     enemyBullets.remove(enemyBullets.get(0));
                 }
-                for (int i = 0; i < theEnemyBulletsSize; i++){
+                for (int i = 0; i < theEnemyBulletsSize; i++) {
                     root.getChildren().remove(theEnemyBullets.get(0));
                     theEnemyBullets.remove(theEnemyBullets.get(0));
                 }
@@ -274,6 +277,10 @@ public abstract class Runner extends Application {
                     gameRestart = true;
                 player.setLive(true);
 
+                playLoserMsc.stop();
+                GUI.startBackgroundMusic();
+                GUI.btnClickSound();
+
                 restart_button.setLayoutX(1500);
                 restart_button.setLayoutY(1500);
                 restartButtonNode.setLayoutX(1500);
@@ -292,38 +299,42 @@ public abstract class Runner extends Application {
         ImageView saveButtonNode = new ImageView();
         saveButtonNode.setImage(saveButton);
         save_button.setGraphic(saveButtonNode);
-        save_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
-        save_button.setOnAction(new EventHandler<ActionEvent>(){
+        save_button
+                .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        save_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent save) {
                 if (enemiesKilled == enemiesToSpawn)
                     enemiesKilled = 0;
                 try {
-                    FileWriter fwriter = new FileWriter(filePath + "\\savegame.txt", false);
-                    BufferedWriter bwriter = new BufferedWriter(fwriter);
-                    bwriter.write(Integer.toString(score));
-                    bwriter.newLine();
-                    bwriter.write(Integer.toString(enemyMovementSpeed));
-                    bwriter.newLine();
-                    bwriter.write(Integer.toString(enemyProjectileSpeed));
-                    bwriter.newLine();
-                    bwriter.write(Integer.toString(enemiesToSpawn));
-                    bwriter.newLine();
-                    bwriter.write(Integer.toString(wavesKilled));
-                    bwriter.newLine();
-                    bwriter.write(Integer.toString(enemiesKilled));
-                    bwriter.close();
-                }
-                catch (IOException e) {
+                    FileWriter savefwriter = new FileWriter(filePath + "\\savegame.txt", false);
+                    BufferedWriter savebwriter = new BufferedWriter(savefwriter);
+                    savebwriter.write(Integer.toString(score));
+                    savebwriter.newLine();
+                    savebwriter.write(Integer.toString(enemyMovementSpeed));
+                    savebwriter.newLine();
+                    savebwriter.write(Integer.toString(enemyProjectileSpeed));
+                    savebwriter.newLine();
+                    savebwriter.write(Integer.toString(enemiesToSpawn));
+                    savebwriter.newLine();
+                    savebwriter.write(Integer.toString(wavesKilled));
+                    savebwriter.newLine();
+                    savebwriter.write(Integer.toString(enemiesKilled));
+                    savebwriter.close();
+                    FileWriter scorefwriter = new FileWriter(filePath + "\\scoreboard.txt", true);
+                    BufferedWriter scorebwriter = new BufferedWriter(scorefwriter);
+                    scorebwriter.write(Integer.toString(score) + "/n");
+                    scorebwriter.close();
+                } catch (IOException e) {
                     e.printStackTrace();
-                } 
+                }
+                GUI.btnClickSound();
             }
         });
         save_button.setLayoutX(1500);
         save_button.setLayoutY(1500);
         saveButtonNode.setLayoutX(1500);
         saveButtonNode.setLayoutY(1500);
-
 
         // Sets up main controls
         // Player holds a and d to move left and right respectivly
@@ -351,11 +362,11 @@ public abstract class Runner extends Application {
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
-                    if (gameRestart){
+                    if (gameRestart) {
                         root.getChildren().add(thePlayer);
                         gameRestart = false;
                     }
-                    if (gamePause == false && player.getLive()){
+                    if (gamePause == false && player.getLive()) {
 
                         save_button.setLayoutX(1500);
                         save_button.setLayoutY(1500);
@@ -379,11 +390,11 @@ public abstract class Runner extends Application {
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
-                    if (gameRestart){
+                    if (gameRestart) {
                         root.getChildren().add(thePlayer);
                         gameRestart = false;
                     }
-                    if (gamePause == false && player.getLive()){
+                    if (gamePause == false && player.getLive()) {
 
                         save_button.setLayoutX(1500);
                         save_button.setLayoutY(1500);
@@ -407,11 +418,11 @@ public abstract class Runner extends Application {
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
-                    if (gameRestart){
+                    if (gameRestart) {
                         root.getChildren().add(thePlayer);
                         gameRestart = false;
                     }
-                    if (gamePause == false && player.getLive()){
+                    if (gamePause == false && player.getLive()) {
 
                         save_button.setLayoutX(1500);
                         save_button.setLayoutY(1500);
@@ -447,11 +458,11 @@ public abstract class Runner extends Application {
                         } catch (FileNotFoundException e1) {
                             e1.printStackTrace();
                         }
-                    if (gameRestart){
+                    if (gameRestart) {
                         root.getChildren().add(thePlayer);
                         gameRestart = false;
                     }
-                    if (gamePause == false && player.getLive()){
+                    if (gamePause == false && player.getLive()) {
 
                         save_button.setLayoutX(1500);
                         save_button.setLayoutY(1500);
@@ -475,11 +486,11 @@ public abstract class Runner extends Application {
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
-                    if (gameRestart){
+                    if (gameRestart) {
                         root.getChildren().add(thePlayer);
                         gameRestart = false;
                     }
-                    if (gamePause == false && player.getLive()){
+                    if (gamePause == false && player.getLive()) {
 
                         save_button.setLayoutX(1500);
                         save_button.setLayoutY(1500);
@@ -502,7 +513,7 @@ public abstract class Runner extends Application {
                             e.printStackTrace();
                         }
                     fireShot = false;
-                    if (gamePause == false && player.getLive()){
+                    if (gamePause == false && player.getLive()) {
 
                         save_button.setLayoutX(1500);
                         save_button.setLayoutY(1500);
@@ -517,23 +528,23 @@ public abstract class Runner extends Application {
                     break;
 
                 case ESCAPE:
-                    if (createEscapeButton == true){
+                    if (createEscapeButton == true) {
                         gamePause = true;
 
-                        resume_button.setLayoutX(500 - (269/2));
-                        resume_button.setLayoutY(500 - (269/2));
-                        resumeButtonNode.setLayoutX(500 - (269/2));
-                        resumeButtonNode.setLayoutY(500 - (269/2));
+                        resume_button.setLayoutX(500 - (269 / 2));
+                        resume_button.setLayoutY(500 - (269 / 2));
+                        resumeButtonNode.setLayoutX(500 - (269 / 2));
+                        resumeButtonNode.setLayoutY(500 - (269 / 2));
 
-                        restart_button.setLayoutX(500 - (269/2));
-                        restart_button.setLayoutY(600 - (269/2));
-                        restartButtonNode.setLayoutX(500 - (269/2));
-                        restartButtonNode.setLayoutY(600 - (269/2));
+                        restart_button.setLayoutX(500 - (269 / 2));
+                        restart_button.setLayoutY(600 - (269 / 2));
+                        restartButtonNode.setLayoutX(500 - (269 / 2));
+                        restartButtonNode.setLayoutY(600 - (269 / 2));
 
-                        save_button.setLayoutX(500 - (269/2));
-                        save_button.setLayoutY(700 - (269/2));
-                        saveButtonNode.setLayoutX(500 - (269/2));
-                        saveButtonNode.setLayoutY(700 - (269/2));
+                        save_button.setLayoutX(500 - (269 / 2));
+                        save_button.setLayoutY(700 - (269 / 2));
+                        saveButtonNode.setLayoutX(500 - (269 / 2));
+                        saveButtonNode.setLayoutY(700 - (269 / 2));
 
                         createEscapeButton = false;
                     }
@@ -593,7 +604,7 @@ public abstract class Runner extends Application {
             @Override
             public void handle(long now) {
 
-                if (gameRestart){
+                if (gameRestart) {
 
                     gameOver.setLayoutX(1500);
                     gameOver.setLayoutY(1500);
@@ -607,13 +618,13 @@ public abstract class Runner extends Application {
                             enemies.get(i).enemyMovement(enemyMovementSpeed);
                             theEnemies.get(i).setLayoutX(enemies.get(i).getX_Coordinate());
                             theEnemies.get(i).setLayoutY(enemies.get(i).getY_Coordinate());
-                            if (enemies.get(i).getUnitHitBox().intersects(player.getUnitHitBox())){
+                            if (enemies.get(i).getUnitHitBox().intersects(player.getUnitHitBox())) {
                                 player.setLive(false);
 
-                                restart_button.setLayoutX(500 - (269/2));
-                                restart_button.setLayoutY(750 - (269/2));
-                                restartButtonNode.setLayoutX(500 - (269/2));
-                                restartButtonNode.setLayoutY(750 - (269/2));
+                                restart_button.setLayoutX(500 - (269 / 2));
+                                restart_button.setLayoutY(750 - (269 / 2));
+                                restartButtonNode.setLayoutX(500 - (269 / 2));
+                                restartButtonNode.setLayoutY(750 - (269 / 2));
                             }
                         }
                         // Relocates enemies after death to avoid collosion with invisible, dead enemies
@@ -622,7 +633,7 @@ public abstract class Runner extends Application {
                         if (player.getLive() == false) {
                             gameOver.setLayoutX(500 - (375 / 2));
                             gameOver.setLayoutY(500 - (190 / 2));
-                            GUI.stopBackroundMusic();
+                            GUI.stopBackgroundMusic();
                             playLoserMsc.play();
                         }
                         if (enemies.get(i).getLive() == false) {
@@ -655,7 +666,8 @@ public abstract class Runner extends Application {
                     }
                     // Collision for enemies
                     for (int e = 0; e < enemies.size(); e++) {
-                        if (bullets.get(i).getUnitHitBox().intersects(enemies.get(e).getUnitHitBox()) && bullets.get(i).getLive() == true && gamePause == false) {
+                        if (bullets.get(i).getUnitHitBox().intersects(enemies.get(e).getUnitHitBox())
+                                && bullets.get(i).getLive() == true && gamePause == false) {
                             enemies.get(e).setLive(false);
                             bullets.get(i).setLive(false);
                             root.getChildren().remove(theBullets.get(i));
@@ -681,13 +693,13 @@ public abstract class Runner extends Application {
                         root.getChildren().remove(thePlayer);
                         gameOver.setLayoutX(500 - (375 / 2));
                         gameOver.setLayoutY(500 - (190 / 2));
-                        GUI.stopBackroundMusic();
+                        GUI.stopBackgroundMusic();
                         playLoserMsc.play();
 
-                        restart_button.setLayoutX(500 - (269/2));
-                        restart_button.setLayoutY(750 - (269/2));
-                        restartButtonNode.setLayoutX(500 - (269/2));
-                        restartButtonNode.setLayoutY(750 - (269/2));
+                        restart_button.setLayoutX(500 - (269 / 2));
+                        restart_button.setLayoutY(750 - (269 / 2));
+                        restartButtonNode.setLayoutX(500 - (269 / 2));
+                        restartButtonNode.setLayoutY(750 - (269 / 2));
                     }
                 }
             }

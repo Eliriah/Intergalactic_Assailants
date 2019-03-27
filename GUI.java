@@ -24,7 +24,8 @@ import java.util.*;
 public class GUI extends Application {
 
     private static String filePath = System.getProperty("user.dir");
-    private static int aEnemiesToSpawn, aEnemiesKilled, aEnemyMovementSpeed, aEnemyProjectileSpeed, aWavesKilled, aScore;
+    private static int aEnemiesToSpawn, aEnemiesKilled, aEnemyMovementSpeed, aEnemyProjectileSpeed, aWavesKilled,
+            aScore;
 
     // Background Music
     int maxVolume = 100;
@@ -40,8 +41,12 @@ public class GUI extends Application {
         playbtnClickSound.play();
     }
 
-    public static void stopBackroundMusic() {
+    public static void stopBackgroundMusic() {
         playBackgroundmsc.stop();
+    }
+
+    public static void startBackgroundMusic() {
+        playBackgroundmsc.play();
     }
 
     @Override
@@ -54,7 +59,7 @@ public class GUI extends Application {
             }
         });
         playBackgroundmsc.setVolume(1 - log1);
-        playBackgroundmsc.play();
+        startBackgroundMusic();
 
         Pane root = new Pane();
 
@@ -82,7 +87,8 @@ public class GUI extends Application {
         ImageView playButtonNode = new ImageView();
         playButtonNode.setImage(playButton);
         play_button.setGraphic(playButtonNode);
-        play_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        play_button
+                .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         play_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent start) {
@@ -99,7 +105,8 @@ public class GUI extends Application {
         ImageView exitButtonNode = new ImageView();
         exitButtonNode.setImage(exitButton);
         exit_button.setGraphic(exitButtonNode);
-        exit_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        exit_button
+                .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         exit_button.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -110,20 +117,20 @@ public class GUI extends Application {
 
         // Create load button
         FileInputStream loadPath = new FileInputStream(filePath + "\\Textures\\load.png");
-        Image loadButton = new Image(loadPath, 300, 90, false, true);   
+        Image loadButton = new Image(loadPath, 300, 90, false, true);
         Button load_button = new Button();
         ImageView loadButtonNode = new ImageView();
         loadButtonNode.setImage(loadButton);
         load_button.setGraphic(loadButtonNode);
-        load_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
-        load_button.setOnAction(new EventHandler<ActionEvent>(){
+        load_button
+                .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        load_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent save) {
                 try {
-                    
                     FileReader freader = new FileReader(filePath + "\\savegame.txt");
                     BufferedReader breader = new BufferedReader(freader);
-                    for (int i = 1; i<7; i++) {
+                    for (int i = 1; i < 7; i++) {
                         if (i == 1)
                             aScore = Integer.parseInt(breader.readLine());
                         if (i == 2)
@@ -137,19 +144,52 @@ public class GUI extends Application {
                         if (i == 6)
                             aEnemiesKilled = Integer.parseInt(breader.readLine());
                     }
-                    Runner.startGame(stage, aScore, aEnemyMovementSpeed, aEnemyProjectileSpeed, ((20 + (2 * aWavesKilled)) - aEnemiesKilled), aWavesKilled, aEnemiesKilled);
-                    btnClickSound();
-                }
-                catch (IOException e) {
+                    breader.close();
+                    Runner.startGame(stage, aScore, aEnemyMovementSpeed, aEnemyProjectileSpeed,
+                            ((20 + (2 * aWavesKilled)) - aEnemiesKilled), aWavesKilled, aEnemiesKilled);
+                } catch (IOException e) {
                     e.printStackTrace();
-                } 
+                }
+                btnClickSound();
             }
         });
         load_button.setLayoutX(500);
         load_button.setLayoutY(600);
         loadButtonNode.setLayoutX(500);
         loadButtonNode.setLayoutY(600);
- 
+
+        // Creates scoreboard button
+        FileInputStream scoreboardPath = new FileInputStream(filePath + "\\Textures\\save.png");
+        Image scoreboardButton = new Image(scoreboardPath, 300, 90, false, true);
+        Button scoreboard_button = new Button();
+        ImageView scoreboardButtonNode = new ImageView();
+        scoreboardButtonNode.setImage(scoreboardButton);
+        scoreboard_button.setGraphic(scoreboardButtonNode);
+        scoreboard_button
+                .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        scoreboard_button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent showscoreboard) {
+                try {
+                    FileReader freader = new FileReader(filePath + "\\scoreboard.txt");
+                    BufferedReader breader = new BufferedReader(freader);
+                    ArrayList<Integer> scoreArray = new ArrayList<Integer>();
+                    while (breader.readLine() != null) {
+                        int line = Integer.parseInt(breader.readLine());
+                        scoreArray.add(line);
+                    }
+                    breader.close();
+                    btnClickSound();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        scoreboard_button.setLayoutX(1500);
+        scoreboard_button.setLayoutY(1500);
+        scoreboardButtonNode.setLayoutX(1500);
+        scoreboardButtonNode.setLayoutY(1500);
+
         imageView.setLayoutX(0);
         imageView.setLayoutY(0);
         imageView.setFitHeight(1080);
