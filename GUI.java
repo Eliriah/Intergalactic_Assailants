@@ -81,14 +81,9 @@ public class GUI extends Application {
         FileInputStream playPath = new FileInputStream(filePath + "\\Textures\\start.png");
         Image playButton = new Image(playPath, 269, 84, false, true);
         FileInputStream exitPath = new FileInputStream(filePath + "\\Textures\\exit.png");
-        Image exitButton = new Image(exitPath, 267, 82, false, true);
-        FileInputStream scorePath = new FileInputStream(filePath + "\\Textures\\score.png");
-        Image score = new Image(scorePath, 186, 44, false, true);
+        Image exitButton = new Image(exitPath, 267, 84, false, true);
         FileInputStream iconPath = new FileInputStream(filePath + "\\Textures\\moon.png");
         Image icon = new Image(iconPath, 50, 50, false, true);
-
-        ImageView scoreNode = new ImageView();
-        scoreNode.setImage(score);
 
         ImageView imageView = new ImageView();
         imageView.setImage(titleScreen);
@@ -132,7 +127,7 @@ public class GUI extends Application {
 
         // Create load button
         FileInputStream loadPath = new FileInputStream(filePath + "\\Textures\\load.png");
-        Image loadButton = new Image(loadPath, 300, 90, false, true);
+        Image loadButton = new Image(loadPath, 269, 84, false, true);
         Button load_button = new Button();
         ImageView loadButtonNode = new ImageView();
         loadButtonNode.setImage(loadButton);
@@ -226,9 +221,6 @@ public class GUI extends Application {
         exit_button.setLayoutY(500);
         exitButtonNode.setLayoutX(500);
         exitButtonNode.setLayoutY(500);
-
-        scoreNode.setLayoutX(950);
-        scoreNode.setLayoutY(620);
 
         root.getChildren().addAll(imageView, titleNode, play_button, exit_button, load_button, loadButtonNode);
         Scene scene = new Scene(root, 1300, 730);
