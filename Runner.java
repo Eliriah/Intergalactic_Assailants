@@ -50,6 +50,7 @@ public abstract class Runner extends Application {
     // Methods for Spawning game elements
     /**
      * Method that spawns enemies
+     * 
      * @param numberOfEnemies
      * @throws FileNotFoundException
      */
@@ -84,10 +85,12 @@ public abstract class Runner extends Application {
             x++;
         }
     }
-/**
- * Method that allows the player to shoot
- * @throws FileNotFoundException
- */
+
+    /**
+     * Method that allows the player to shoot
+     * 
+     * @throws FileNotFoundException
+     */
     public static void shootProjectile() throws FileNotFoundException {
         // Creates Projectile
         Projectile bullet = new Projectile(player.getX_Coordinate(), player.getY_Coordinate(), 20, 40, true);
@@ -111,10 +114,12 @@ public abstract class Runner extends Application {
         mediaPlayer.setVolume(0.91 - log1);
         mediaPlayer.play();
     }
-/**
- * Method that allows the enemies to shoot
- * @throws FileNotFoundException
- */
+
+    /**
+     * Method that allows the enemies to shoot
+     * 
+     * @throws FileNotFoundException
+     */
     public static void shootEnemyProjectile() throws FileNotFoundException {
         // One enemy will randomly shoot
         Enemy enemyBullet = enemies.get(randomNumber.nextInt(enemies.size()));
@@ -133,9 +138,10 @@ public abstract class Runner extends Application {
         theEnemyBullets.add(theBullet);
         root.getChildren().add(theBullet);
     }
-/**
- * Spawns new waves after one has been cleared
- */
+
+    /**
+     * Spawns new waves after one has been cleared
+     */
     public static void spawnWaves() {
         // Spawns new Waves of enemies
         if (enemiesKilled == enemiesToSpawn) {
@@ -161,6 +167,7 @@ public abstract class Runner extends Application {
     // Main game/GUI
     /**
      * Starts the game
+     * 
      * @param primaryStage
      * @param aScore
      * @param theEnemyMovementSpeed
@@ -171,7 +178,8 @@ public abstract class Runner extends Application {
      * @throws FileNotFoundException
      */
 
-    public static void startGame(Stage primaryStage, int aScore, int theEnemyMovementSpeed, int theEnemyProjectileSpeed, int theEnemiesToSpawn, int numWavesKilled, int numEnemiesKilled) throws FileNotFoundException {
+    public static void startGame(Stage primaryStage, int aScore, int theEnemyMovementSpeed, int theEnemyProjectileSpeed,
+            int theEnemiesToSpawn, int numWavesKilled, int numEnemiesKilled) throws FileNotFoundException {
         // Sets up non-enemy/bullet spites and other images
 
         String loserMsc = filePath + "\\SFX\\Naruto - Sadness and Sorrow 8 Bit.Mp3";
@@ -221,7 +229,8 @@ public abstract class Runner extends Application {
         ImageView resumeButtonNode = new ImageView();
         resumeButtonNode.setImage(resumeButton);
         resume_button.setGraphic(resumeButtonNode);
-        resume_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        resume_button
+                .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         resume_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent resume) {
@@ -247,7 +256,8 @@ public abstract class Runner extends Application {
         ImageView restartButtonNode = new ImageView();
         restartButtonNode.setImage(restartButton);
         restart_button.setGraphic(restartButtonNode);
-        restart_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        restart_button
+                .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         restart_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent restart) {
@@ -324,7 +334,8 @@ public abstract class Runner extends Application {
         ImageView saveButtonNode = new ImageView();
         saveButtonNode.setImage(saveButton);
         save_button.setGraphic(saveButtonNode);
-        save_button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        save_button
+                .setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         save_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent save) {
@@ -578,6 +589,8 @@ public abstract class Runner extends Application {
             }
         });
         // Sets up Stage and spawns in enemies
+        FileInputStream icon = new FileInputStream(filePath + "\\Textures\\moon.png");
+        Image moon = new Image(icon, 50, 50, false, true);
 
         root.getChildren().add(theBG);
         spawnEnemies(theEnemiesToSpawn);
@@ -594,6 +607,7 @@ public abstract class Runner extends Application {
 
         primaryStage.setTitle("Intergalactic Assailants");
         primaryStage.setScene(scene);
+        primaryStage.getIcons().add(moon);
         primaryStage.show();
 
         // Animation Timers
@@ -691,7 +705,8 @@ public abstract class Runner extends Application {
                     }
                     // Collision for enemies
                     for (int e = 0; e < enemies.size(); e++) {
-                        if (bullets.get(i).getUnitHitBox().intersects(enemies.get(e).getUnitHitBox()) && bullets.get(i).getLive() == true && gamePause == false) {
+                        if (bullets.get(i).getUnitHitBox().intersects(enemies.get(e).getUnitHitBox())
+                                && bullets.get(i).getLive() == true && gamePause == false) {
                             enemies.get(e).setLive(false);
                             bullets.get(i).setLive(false);
                             root.getChildren().remove(theBullets.get(i));
