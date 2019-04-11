@@ -402,18 +402,6 @@ public abstract class Runner extends Application {
                         root.getChildren().add(thePlayer);
                         gameRestart = false;
                     }
-                    if (gamePause == false && player.getLive()) {
-
-                        save_button.setLayoutX(1500);
-                        save_button.setLayoutY(1500);
-                        saveButtonNode.setLayoutX(1500);
-                        saveButtonNode.setLayoutY(1500);
-
-                        restart_button.setLayoutX(1500);
-                        restart_button.setLayoutY(1500);
-                        restartButtonNode.setLayoutX(1500);
-                        restartButtonNode.setLayoutY(1500);
-                    }
                     break;
 
                 case A:
@@ -430,18 +418,6 @@ public abstract class Runner extends Application {
                         root.getChildren().add(thePlayer);
                         gameRestart = false;
                     }
-                    if (gamePause == false && player.getLive()) {
-
-                        save_button.setLayoutX(1500);
-                        save_button.setLayoutY(1500);
-                        saveButtonNode.setLayoutX(1500);
-                        saveButtonNode.setLayoutY(1500);
-
-                        restart_button.setLayoutX(1500);
-                        restart_button.setLayoutY(1500);
-                        restartButtonNode.setLayoutX(1500);
-                        restartButtonNode.setLayoutY(1500);
-                    }
                     break;
 
                 case B:
@@ -457,18 +433,6 @@ public abstract class Runner extends Application {
                     if (gameRestart) {
                         root.getChildren().add(thePlayer);
                         gameRestart = false;
-                    }
-                    if (gamePause == false && player.getLive()) {
-
-                        save_button.setLayoutX(1500);
-                        save_button.setLayoutY(1500);
-                        saveButtonNode.setLayoutX(1500);
-                        saveButtonNode.setLayoutY(1500);
-
-                        restart_button.setLayoutX(1500);
-                        restart_button.setLayoutY(1500);
-                        restartButtonNode.setLayoutX(1500);
-                        restartButtonNode.setLayoutY(1500);
                     }
                     break;
 
@@ -498,18 +462,6 @@ public abstract class Runner extends Application {
                         root.getChildren().add(thePlayer);
                         gameRestart = false;
                     }
-                    if (gamePause == false && player.getLive()) {
-
-                        save_button.setLayoutX(1500);
-                        save_button.setLayoutY(1500);
-                        saveButtonNode.setLayoutX(1500);
-                        saveButtonNode.setLayoutY(1500);
-
-                        restart_button.setLayoutX(1500);
-                        restart_button.setLayoutY(1500);
-                        restartButtonNode.setLayoutX(1500);
-                        restartButtonNode.setLayoutY(1500);
-                    }
                     break;
 
                 case A:
@@ -526,18 +478,6 @@ public abstract class Runner extends Application {
                         root.getChildren().add(thePlayer);
                         gameRestart = false;
                     }
-                    if (gamePause == false && player.getLive()) {
-
-                        save_button.setLayoutX(1500);
-                        save_button.setLayoutY(1500);
-                        saveButtonNode.setLayoutX(1500);
-                        saveButtonNode.setLayoutY(1500);
-
-                        restart_button.setLayoutX(1500);
-                        restart_button.setLayoutY(1500);
-                        restartButtonNode.setLayoutX(1500);
-                        restartButtonNode.setLayoutY(1500);
-                    }
                     break;
 
                 case B:
@@ -549,18 +489,6 @@ public abstract class Runner extends Application {
                             e.printStackTrace();
                         }
                     fireShot = false;
-                    if (gamePause == false && player.getLive()) {
-
-                        save_button.setLayoutX(1500);
-                        save_button.setLayoutY(1500);
-                        saveButtonNode.setLayoutX(1500);
-                        saveButtonNode.setLayoutY(1500);
-
-                        restart_button.setLayoutX(1500);
-                        restart_button.setLayoutY(1500);
-                        restartButtonNode.setLayoutX(1500);
-                        restartButtonNode.setLayoutY(1500);
-                    }
                     break;
 
                 case ESCAPE:
@@ -617,6 +545,19 @@ public abstract class Runner extends Application {
 
             @Override
             public void handle(long now) {
+
+                if (gamePause == false && player.getLive()) {
+
+                    save_button.setLayoutX(1500);
+                    save_button.setLayoutY(1500);
+                    saveButtonNode.setLayoutX(1500);
+                    saveButtonNode.setLayoutY(1500);
+
+                    restart_button.setLayoutX(1500);
+                    restart_button.setLayoutY(1500);
+                    restartButtonNode.setLayoutX(1500);
+                    restartButtonNode.setLayoutY(1500);
+                }
 
                 if (movingLeft) {
                     if (player.getLive() && gamePause == false) {

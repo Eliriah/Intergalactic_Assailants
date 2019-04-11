@@ -57,26 +57,6 @@ public class GUI extends Application {
         playBackgroundmsc.play();
     }
 
-    // Reads the scoreboard
-    /*
-     * public static ArrayList<Integer> readscoreboard() { ArrayList<Integer>
-     * scoreArray = new ArrayList<Integer>(); try { FileReader freader = new
-     * FileReader(filePath + "\\scoreboard.txt"); BufferedReader breader = new
-     * BufferedReader(freader); while (breader.readLine() != null) { int line =
-     * Integer.parseInt(breader.readLine()); scoreArray.add(line); }
-     * breader.close(); } catch (IOException e) { e.printStackTrace(); } return
-     * scoreArray; }
-     * 
-     * public void createTop5Scores() throws FileNotFoundException{
-     * ArrayList<Integer> scoreArray = readscoreboard(); for (int i = 0; i < 5; i++)
-     * { FileInputStream fontStream = new FileInputStream(filePath +
-     * "\\Textures\\04B_30__.TTF"); Font f = Font.loadFont(fontStream, 34); String
-     * scoreString = ""; if (scoreArray.size() > i) scoreString =
-     * Integer.toString(scoreArray.get(0)); Label score = new Label(scoreString);
-     * score.setFont(f); score.setTextFill(Color.rgb(255, 193, 170));
-     * score.setLayoutX(900); score.setLayoutX(50 + i * 50); } }
-     */
-
     @Override
     public void start(Stage stage) throws Exception {
 
@@ -149,14 +129,6 @@ public class GUI extends Application {
                 System.exit(0);
             }
         });
-        /*
-         * FileInputStream fontStream = new FileInputStream(filePath +
-         * "\\Textures\\04B_30__.TTF"); Font f = Font.loadFont(fontStream, 34); // Sets
-         * up scoreboard Image scoreboard = new Image(scorePath, 186, 44, false, true);
-         * ImageView scoreboardText = new ImageView();
-         * scoreboardText.setImage(scoreboard); scoreboardText.setLayoutX(900);
-         * scoreboardText.setLayoutY(0); // Sets up scoreboard label createTop5Scores();
-         */
         // Create load button
         FileInputStream loadPath = new FileInputStream(filePath + "\\Textures\\load.png");
         Image loadButton = new Image(loadPath, 269, 84, false, true);
